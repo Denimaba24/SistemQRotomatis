@@ -27,8 +27,8 @@
 
     <style>
       /* =========================================================
-           ULTRA PREMIUM INDUSTRIAL GLASSMORPHISM - V8.0
-           (Custom Google Drive Icons Applied)
+           ULTRA PREMIUM INDUSTRIAL GLASSMORPHISM - V11.0
+           (Added "Cyber Data Flame" Animation in Sidebar)
         ========================================================= */
       :root {
         --bg-sidebar: rgba(10, 15, 30, 0.35);
@@ -42,7 +42,6 @@
         --accent-cyan: #00f2fe;
         --accent-blue: #4facfe;
         --accent-green: #00f260;
-        --accent-green-dark: #0575e6;
         --danger: #ff0844;
 
         --radius-md: 16px;
@@ -79,11 +78,6 @@
         min-height: 100vh;
         overflow-x: hidden;
         background-image:
-          radial-gradient(
-            circle at 50% 0%,
-            rgba(0, 242, 254, 0.15),
-            transparent 50%
-          ),
           linear-gradient(rgba(5, 11, 20, 0.65), rgba(5, 11, 20, 0.9)),
           url("https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=1920&auto=format&fit=crop");
         background-size: cover;
@@ -91,13 +85,182 @@
         background-attachment: fixed;
       }
 
-      /* Penyesuaian class .icon-svg agar pas menampung tag <img> */
+      /* --- PARTICLES & BACKGROUND EFFECTS --- */
+      .particle-container {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .glowing-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: 0.45;
+        animation: floatOrb 12s infinite alternate ease-in-out;
+      }
+      .orb-1 {
+        width: 450px;
+        height: 450px;
+        background: var(--accent-cyan);
+        top: -100px;
+        left: -100px;
+        animation-duration: 15s;
+      }
+      .orb-2 {
+        width: 550px;
+        height: 550px;
+        background: rgba(139, 92, 246, 0.7);
+        bottom: -150px;
+        right: -100px;
+        animation-duration: 18s;
+        animation-delay: -5s;
+      }
+      .orb-3 {
+        width: 350px;
+        height: 350px;
+        background: var(--accent-green);
+        top: 30%;
+        left: 50%;
+        animation-duration: 20s;
+        animation-delay: -10s;
+        opacity: 0.25;
+      }
+
+      @keyframes floatOrb {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(50px, -50px) scale(1.1);
+        }
+      }
+
+      .star-dust {
+        position: absolute;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow:
+          0 0 10px #fff,
+          0 0 20px var(--accent-cyan);
+        animation: twinkleFloat linear infinite;
+      }
+      .star-1 {
+        width: 4px;
+        height: 4px;
+        top: 20%;
+        left: 30%;
+        animation-duration: 8s;
+      }
+      .star-2 {
+        width: 6px;
+        height: 6px;
+        top: 80%;
+        left: 15%;
+        animation-duration: 12s;
+        animation-delay: -2s;
+      }
+      .star-3 {
+        width: 3px;
+        height: 3px;
+        top: 40%;
+        left: 85%;
+        animation-duration: 9s;
+        animation-delay: -4s;
+      }
+      .star-4 {
+        width: 5px;
+        height: 5px;
+        top: 90%;
+        left: 60%;
+        animation-duration: 14s;
+        animation-delay: -1s;
+      }
+      .star-5 {
+        width: 7px;
+        height: 7px;
+        top: 10%;
+        left: 75%;
+        animation-duration: 11s;
+        animation-delay: -6s;
+      }
+      .star-6 {
+        width: 4px;
+        height: 4px;
+        top: 50%;
+        left: 45%;
+        animation-duration: 10s;
+        animation-delay: -3s;
+      }
+      .star-7 {
+        width: 5px;
+        height: 5px;
+        top: 75%;
+        left: 35%;
+        animation-duration: 13s;
+        animation-delay: -5s;
+      }
+
+      @keyframes twinkleFloat {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0;
+        }
+        30% {
+          opacity: 1;
+          transform: translateY(-80px) scale(1.5);
+        }
+        70% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-250px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* --- ICONS SIZE & BORDER RADIUS FIX --- */
+      @keyframes floatSidebarIcon {
+        0%,
+        100% {
+          transform: translateY(0px);
+          filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+        }
+        50% {
+          transform: translateY(
+            -4px
+          ); /* Mengambang naik sedikit saja agar elegan */
+          filter: drop-shadow(
+            0 8px 10px rgba(0, 242, 254, 0.6)
+          ); /* Efek cahaya biru neon di bawahnya */
+        }
+      }
+
+      /* --- ICONS SIZE, BORDER RADIUS & ANIMATION FIX --- */
       .icon-svg {
-        width: 22px;
-        height: 22px;
+        width: 28px;
+        height: 28px;
         flex-shrink: 0;
         transition: transform 0.3s ease;
-        object-fit: contain;
+        object-fit: cover;
+        border-radius: 8px;
+        /* Mengaktifkan efek mengambang terus-menerus */
+        animation: floatSidebarIcon 3s ease-in-out infinite;
+      }
+
+      /* Jeda (delay) bergantian untuk masing-masing menu sidebar dari atas ke bawah */
+      .nav-item:nth-child(1) .icon-svg {
+        animation-delay: 0s;
+      }
+      .nav-item:nth-child(2) .icon-svg {
+        animation-delay: 0.7s;
+      }
+      .nav-item:nth-child(3) .icon-svg {
+        animation-delay: 1.4s;
+      }
+      .nav-item:nth-child(4) .icon-svg {
+        animation-delay: 2.1s;
       }
 
       .app-container {
@@ -109,7 +272,7 @@
 
       /* --- SIDEBAR --- */
       .sidebar {
-        width: 310px;
+        width: 320px;
         background: var(--bg-sidebar);
         backdrop-filter: blur(35px);
         -webkit-backdrop-filter: blur(35px);
@@ -139,24 +302,45 @@
       }
 
       .brand-icon {
-        width: 120px;
-        height: 120px;
-        border-radius: 20px;
+        width: 140px;
+        height: 140px;
+        border-radius: 28px;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
         background: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        border: 3px solid rgba(255, 255, 255, 0.4);
         box-shadow:
           0 10px 25px rgba(0, 0, 0, 0.4),
-          0 0 20px rgba(0, 242, 254, 0.2);
+          0 0 25px rgba(0, 242, 254, 0.3);
         flex-shrink: 0;
-        padding: 4px;
+        padding: 0;
+      }
+      .brand-icon img {
+        border-radius: 24px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @keyframes floatText {
+        0% {
+          transform: translateY(0);
+          filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.3));
+        }
+        50% {
+          transform: translateY(-4px);
+          filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.9));
+        }
+        100% {
+          transform: translateY(0);
+          filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.3));
+        }
       }
 
       .brand-text h1 {
-        font-size: 20px;
+        font-size: 21px;
         font-weight: 800;
         letter-spacing: 0.5px;
         line-height: 1.4;
@@ -164,34 +348,36 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        animation: floatText 3.5s ease-in-out infinite;
       }
       .brand-text p {
-        font-size: 17px;
+        font-size: 16px;
         color: var(--accent-cyan);
         font-weight: 800;
         letter-spacing: 0.5px;
         margin-top: 8px;
         line-height: 1.5;
-        text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        animation: floatText 3.5s ease-in-out infinite;
+        animation-delay: 0.5s;
       }
 
       .nav-menu {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
         list-style: none;
       }
 
       .nav-item {
-        padding: 16px 20px;
+        padding: 18px 20px;
         border-radius: var(--radius-md);
         color: var(--text-muted);
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 18px;
+        gap: 20px;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         border: 1px solid transparent;
         position: relative;
@@ -224,28 +410,127 @@
         box-shadow: inset 30px 0 50px -20px rgba(0, 242, 254, 0.4);
       }
       .nav-item.active .icon-svg {
-        filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+        filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.8));
       }
 
       .badge {
         margin-left: auto;
         background: linear-gradient(135deg, #ff0844, #ffb199);
         color: #fff;
-        font-size: 12px;
+        font-size: 13px;
         padding: 4px 12px;
         border-radius: 20px;
         font-weight: 800;
         box-shadow: 0 5px 15px rgba(255, 8, 68, 0.5);
       }
 
+      /* --- ANIMASI CYBER FLAME DI BAWAH SIDEBAR --- */
+      .cyber-flame-container {
+        margin-top: auto; /* Mendorong animasi ini ke paling bawah sidebar */
+        width: 100%;
+        height: 130px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          inset 0 0 20px rgba(0, 242, 254, 0.15),
+          0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: 0.3s ease;
+      }
+      .cyber-flame-container:hover {
+        box-shadow:
+          inset 0 0 30px rgba(0, 242, 254, 0.3),
+          0 10px 30px rgba(0, 0, 0, 0.5);
+        border-color: rgba(0, 242, 254, 0.3);
+      }
+      .flame-title {
+        z-index: 2;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--text-muted);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .flame-status {
+        z-index: 2;
+        font-size: 18px;
+        font-weight: 800;
+        color: #fff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
+      }
+      .flame-status span {
+        color: var(--accent-cyan);
+        animation: pulseText 2s infinite;
+      }
+      @keyframes pulseText {
+        0% {
+          filter: brightness(1);
+          text-shadow: 0 0 10px var(--accent-cyan);
+        }
+        50% {
+          filter: brightness(1.3);
+          text-shadow:
+            0 0 20px var(--accent-cyan),
+            0 0 30px var(--accent-blue);
+        }
+        100% {
+          filter: brightness(1);
+          text-shadow: 0 0 10px var(--accent-cyan);
+        }
+      }
+
+      /* Ombak Api (Liquid Wave) */
+      .wave {
+        position: absolute;
+        bottom: -70px;
+        left: 50%;
+        width: 250px;
+        height: 250px;
+        border-radius: 40%;
+        transform: translateX(-50%);
+        animation: spinWave 6s linear infinite;
+        z-index: 1;
+      }
+      .wave:nth-child(3) {
+        background: rgba(0, 242, 254, 0.3);
+        animation: spinWave 6s linear infinite;
+      }
+      .wave:nth-child(4) {
+        background: rgba(0, 242, 96, 0.2);
+        animation: spinWave 8s linear infinite;
+        bottom: -80px;
+      }
+      .wave:nth-child(5) {
+        background: rgba(79, 172, 254, 0.4);
+        animation: spinWave 10s linear infinite;
+        bottom: -90px;
+      }
+
+      @keyframes spinWave {
+        0% {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        100% {
+          transform: translateX(-50%) rotate(360deg);
+        }
+      }
+
       /* --- MAIN CONTENT --- */
       .main-content {
         flex: 1;
-        margin-left: 310px;
+        margin-left: 320px;
         padding: 40px 55px;
         display: flex;
         flex-direction: column;
-        max-width: calc(100vw - 310px);
+        max-width: calc(100vw - 320px);
       }
 
       .topbar {
@@ -313,7 +598,7 @@
       }
 
       .company-title {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 800;
         letter-spacing: 4px;
         text-transform: uppercase;
@@ -431,40 +716,67 @@
       }
 
       .dash-card .icon-wrapper {
-        width: 85px;
-        height: 85px;
-        border-radius: 24px;
+        width: 100px;
+        height: 100px;
+        border-radius: 26px;
         margin: 0 auto 30px;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
         transition: transform 0.4s;
+        overflow: hidden;
       }
       .dash-card:hover .icon-wrapper {
         transform: scale(1.1) rotate(5deg);
       }
 
-      /* Modifikasi .icon-wrapper agar gambar IMG pas di tengah */
+      @keyframes floatIconContinuous {
+        0%,
+        100% {
+          transform: translateY(0px) scale(1);
+          filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+        }
+        50% {
+          transform: translateY(-8px) scale(1.05);
+          filter: drop-shadow(0 15px 15px rgba(0, 242, 254, 0.6));
+        }
+      }
+
       .dash-card .icon-wrapper img {
-        width: 75px;
-        height: 75px;
-        object-fit: contain;
-        filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
-        transition: transform 0.4s;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 22px;
+        /* Memberikan animasi mengambang ke ikon secara default */
+        animation: floatIconContinuous 3.5s ease-in-out infinite;
+      }
+
+      /* Jeda animasi agar naiknya ikon saling bergantian (tidak serempak) */
+      .dash-card.blue .icon-wrapper img {
+        animation-delay: 0s;
+      }
+      .dash-card.green .icon-wrapper img {
+        animation-delay: 1.2s;
+      }
+      .dash-card.purple .icon-wrapper img {
+        animation-delay: 2.4s;
       }
 
       .dash-card.blue .icon-wrapper {
         background: rgba(0, 242, 254, 0.15);
         border: 2px solid rgba(0, 242, 254, 0.3);
+        padding: 4px;
       }
       .dash-card.green .icon-wrapper {
         background: rgba(0, 242, 96, 0.15);
         border: 2px solid rgba(0, 242, 96, 0.3);
+        padding: 4px;
       }
       .dash-card.purple .icon-wrapper {
         background: rgba(176, 106, 179, 0.15);
         border: 2px solid rgba(176, 106, 179, 0.3);
+        padding: 4px;
       }
 
       .dash-card h3 {
@@ -480,6 +792,7 @@
         line-height: 1.7;
       }
 
+      /* --- STATS NUMBERS: WARNA-WARNI & MENGAMBANG --- */
       .stats-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -505,11 +818,45 @@
         text-transform: uppercase;
         letter-spacing: 1.5px;
       }
+
+      @keyframes floatColorful {
+        0% {
+          transform: translateY(0);
+          filter: hue-rotate(0deg);
+          text-shadow: 0 5px 15px rgba(0, 242, 254, 0.5);
+        }
+        50% {
+          transform: translateY(-6px);
+          filter: hue-rotate(90deg);
+          text-shadow: 0 15px 25px rgba(0, 242, 96, 0.7);
+        }
+        100% {
+          transform: translateY(0);
+          filter: hue-rotate(0deg);
+          text-shadow: 0 5px 15px rgba(0, 242, 254, 0.5);
+        }
+      }
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
       .stat-item .val {
-        font-size: 38px;
+        font-size: 42px;
         font-weight: 800;
-        color: #fff;
-        text-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        background: linear-gradient(135deg, #00f2fe, #4facfe, #00f260, #fdfc47);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation:
+          floatColorful 4s ease-in-out infinite,
+          gradientMove 6s linear infinite;
       }
 
       /* --- KOMPONEN FORM & HEADER --- */
@@ -980,6 +1327,21 @@
     </style>
   </head>
   <body>
+    <!-- LAYER ANIMASI BACKGROUND BINTANG (PARTIKEL) -->
+    <div class="particle-container">
+      <div class="glowing-orb orb-1"></div>
+      <div class="glowing-orb orb-2"></div>
+      <div class="glowing-orb orb-3"></div>
+
+      <div class="star-dust star-1"></div>
+      <div class="star-dust star-2"></div>
+      <div class="star-dust star-3"></div>
+      <div class="star-dust star-4"></div>
+      <div class="star-dust star-5"></div>
+      <div class="star-dust star-6"></div>
+      <div class="star-dust star-7"></div>
+    </div>
+
     <div class="app-container">
       <!-- ================= SIDEBAR ================= -->
       <aside class="sidebar" id="sidebar">
@@ -988,7 +1350,6 @@
             <img
               src="https://lh3.googleusercontent.com/d/1NX630osVVyJUvPzczutceKaOsoBKZn02"
               alt="Logo PT Daya Sakti Niaga"
-              style="width: 100%; height: 100%; object-fit: cover"
             />
           </div>
           <div class="brand-text">
@@ -998,7 +1359,6 @@
         </div>
 
         <ul class="nav-menu">
-          <!-- MENGGANTI Ikon Bawaan menjadi Icon Image dari Google Drive Anda -->
           <li class="nav-item active" onclick="switchPage('dashboard', this)">
             <img
               src="https://lh3.googleusercontent.com/d/1nVFdGimuqnkyK-0iqKgGoI6MqXKTmjK-"
@@ -1033,6 +1393,15 @@
             Database
           </li>
         </ul>
+
+        <!-- ================= ANIMASI CYBER FLAME (BAWAH MENU) ================= -->
+        <div class="cyber-flame-container">
+          <div class="flame-title">Barcode Otomatis</div>
+          <div class="flame-status"><span>●</span> AKTIF</div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+        </div>
       </aside>
 
       <!-- ================= MAIN CONTENT ================= -->
@@ -1062,9 +1431,11 @@
           <div class="running-text-wrapper">
             <div class="running-text-content">
               Sistem Pembuatan Barcode secara Otomatis melalui Unggahan File
-              Excell &nbsp;&nbsp;&bull;&nbsp;&nbsp; PT Daya Sakti Niaga
-              &nbsp;&nbsp;&bull;&nbsp;&nbsp; Sistem Pembuatan Barcode secara
-              Otomatis melalui Unggahan File Excell
+              Excell Excell &nbsp;&nbsp;&bull;&nbsp;&nbsp; PT Daya Sakti Niaga-
+              Jl. Kapten Darmo Sugondo No.2, Indro, Karangkering, Kec. Kebomas,
+              Kabupaten Gresik, Jawa Timur 61123 &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+              Sistem Pembuatan Barcode secara Otomatis melalui Unggahan File
+              Excell
             </div>
           </div>
         </div>
@@ -1091,7 +1462,6 @@
               "
             >
               <div class="icon-wrapper">
-                <!-- MENGGANTI Ikon Bawaan Kotak Dashboard menjadi Icon Image -->
                 <img
                   src="https://lh3.googleusercontent.com/d/1MEGItRX8aanIVqvphpbvuMSL07WQiacG"
                   alt="Pencarian"
@@ -1112,6 +1482,7 @@
                 Buka Menu →
               </div>
             </div>
+
             <div
               class="dash-card green"
               onclick="
@@ -1122,7 +1493,6 @@
               "
             >
               <div class="icon-wrapper">
-                <!-- MENGGANTI Ikon Bawaan Kotak Dashboard menjadi Icon Image -->
                 <img
                   src="https://lh3.googleusercontent.com/d/1O-3Tr1eYFXBgFaI4rQs5z2I5t0LsGFnS"
                   alt="Export"
@@ -1143,6 +1513,7 @@
                 Buka Menu →
               </div>
             </div>
+
             <div
               class="dash-card purple"
               onclick="
@@ -1153,7 +1524,6 @@
               "
             >
               <div class="icon-wrapper">
-                <!-- MENGGANTI Ikon Bawaan Kotak Dashboard menjadi Icon Image -->
                 <img
                   src="https://lh3.googleusercontent.com/d/1Gzhkt9KShiU-0Uq8r-mkvAJ_8Bdnlh_r"
                   alt="Database"
@@ -1187,7 +1557,7 @@
               <div
                 class="val"
                 id="stat-last-export"
-                style="font-size: 18px; margin-top: 20px; letter-spacing: 0.5px"
+                style="font-size: 26px; padding-top: 10px"
               >
                 -
               </div>
@@ -1636,7 +2006,6 @@
         return textParts.length > 0 ? textParts.join("\n") : "Data Kosong";
       }
 
-      /* --- FUNGSI PARSING EXCEL --- */
       document
         .getElementById("fileUpload")
         .addEventListener("change", function (e) {
@@ -1855,6 +2224,7 @@
         } else {
           dbSelected.push(foundRow);
         }
+
         await localforage.setItem("dbSelectedMultiSheet", dbSelected);
         updateUI();
         triggerSearchNow();
@@ -1967,6 +2337,7 @@
         let removedIds = new Set(fileObj.rows.map((r) => r.SYSTEM_ID));
         dbFiles = dbFiles.filter((f) => f.id !== fileId);
         dbSelected = dbSelected.filter((s) => !removedIds.has(s.SYSTEM_ID));
+
         await localforage.setItem("dbFilesMultiSheet", dbFiles);
         await localforage.setItem("dbSelectedMultiSheet", dbSelected);
         updateUI();
@@ -1996,6 +2367,7 @@
           showToast("Data riwayat berhasil dimuat ulang.");
         }
       }
+
       async function deleteHistory(historyId) {
         exportHistory = exportHistory.filter((e) => e.id !== historyId);
         await localforage.setItem("appExportHistory", exportHistory);
