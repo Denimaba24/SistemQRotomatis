@@ -8,1098 +8,1542 @@
     />
     <meta
       name="author"
-      content="PT Daya Sakti Niaga Gresik"
+      content="SISTEM PEMBUATAN BARCODE SECARA OTOMATIS DAN CEPAT MELALUI EXPORT FILE EXCEL BERBASIS WEBSITE"
     />
-    <title>PT DAYA SAKTI NIAGA | SISTEM PEMBUATAN BARCODE</title>
+    <title>Sistem Pembuatan Barcode Otomatis | PT Daya Sakti Niaga</title>
 
-    <!-- Pustaka Eksternal -->
+    <!-- Library Eksternal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
+    <!-- Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
     <style>
+      /* =========================================================
+           ULTRA PREMIUM INDUSTRIAL GLASSMORPHISM - V8.0
+           (Custom Google Drive Icons Applied)
+        ========================================================= */
       :root {
-        --bg-color: #f8fafc;
-        --surface: rgba(255, 255, 255, 0.92);
-        --text-main: #334155;
-        --text-dark: #0f172a;
-        --text-muted: #64748b;
-        --border: #cbd5e1;
-        --primary: #0f172a;
-        --accent: #2563eb;
-        --accent-hover: #1d4ed8;
-        --accent-bg: #eff6ff;
-        --success: #10b981;
-        --danger: #ef4444;
-        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 20px 30px -10px rgba(0, 0, 0, 0.12);
-        --radius-md: 14px;
-        --radius-lg: 20px;
-      }
+        --bg-sidebar: rgba(10, 15, 30, 0.35);
+        --bg-card: rgba(15, 20, 35, 0.45);
+        --bg-input: rgba(0, 0, 0, 0.5);
 
-      /* PRESET TEMA WARNA BISA DISESUAIKAN */
-      body.theme-dark {
-        --bg-color: #090d16;
-        --surface: rgba(19, 28, 46, 0.92);
-        --text-main: #cbd5e1;
-        --text-dark: #f8fafc;
-        --text-muted: #94a3b8;
-        --border: #24334d;
-        --accent: #3b82f6;
-        --accent-bg: #1e293b;
-      }
-      body.theme-emerald {
-        --bg-color: #064e3b;
-        --surface: rgba(4, 120, 87, 0.92);
-        --text-main: #ecfdf5;
-        --text-dark: #ffffff;
-        --text-muted: #a7f3d0;
-        --border: #059669;
-        --accent: #34d399;
-        --accent-bg: #065f46;
-      }
-      body.theme-purple {
-        --bg-color: #2e1065;
-        --surface: rgba(76, 29, 149, 0.92);
-        --text-main: #f3e8ff;
-        --text-dark: #ffffff;
-        --text-muted: #ddd6fe;
-        --border: #6d28d9;
-        --accent: #a78bfa;
-        --accent-bg: #5b21b6;
-      }
-      body.theme-warm {
-        --bg-color: #451a03;
-        --surface: rgba(120, 53, 15, 0.92);
-        --text-main: #fef3c7;
-        --text-dark: #ffffff;
-        --text-muted: #fde68a;
-        --border: #92400e;
-        --accent: #fbbf24;
-        --accent-bg: #b45309;
+        --text-main: #ffffff;
+        --text-muted: #cbd5e1;
+        --border-color: rgba(255, 255, 255, 0.15);
+
+        --accent-cyan: #00f2fe;
+        --accent-blue: #4facfe;
+        --accent-green: #00f260;
+        --accent-green-dark: #0575e6;
+        --danger: #ff0844;
+
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --shadow-glow-cyan: 0 0 30px rgba(0, 242, 254, 0.3);
       }
 
       * {
-        box-sizing: border-box;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
         font-family: "Plus Jakarta Sans", sans-serif;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-cyan) rgba(255, 255, 255, 0.05);
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--accent-cyan);
+        border-radius: 10px;
       }
 
       body {
-        /* GAMBAR BACKGROUND PABRIK DENGAN OVERLAY SEMI-TRANSPARAN */
-        background-image: linear-gradient(
-            rgba(248, 250, 252, 0.88),
-            rgba(248, 250, 252, 0.88)
+        background-color: #050b14;
+        color: var(--text-main);
+        display: flex;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background-image:
+          radial-gradient(
+            circle at 50% 0%,
+            rgba(0, 242, 254, 0.15),
+            transparent 50%
           ),
-          url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80");
+          linear-gradient(rgba(5, 11, 20, 0.65), rgba(5, 11, 20, 0.9)),
+          url("https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=1920&auto=format&fit=crop");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
-        color: var(--text-main);
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        overflow-x: hidden;
-        transition: background 0.4s ease, color 0.4s ease;
       }
 
-      /* Navbar Modern */
-      .navbar {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        padding: 14px 4%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--border);
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        gap: 16px;
-        box-shadow: var(--shadow-sm);
-      }
-
-      /* CONTAINER RUNNING TEXT & KETERANGAN SISTEM PEMBUATAN BARCODE */
-      .brand-container {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        max-width: 380px;
-        flex: 1;
-      }
-
-      .running-text-container {
-        overflow: hidden;
-        white-space: nowrap;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 30px;
-        padding: 6px 14px;
-        display: flex;
-        align-items: center;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-      }
-
-      .running-text {
-        display: inline-block;
-        font-weight: 800;
-        font-size: 13px;
-        letter-spacing: 0.5px;
-        color: var(--accent);
-        animation: marquee 10s linear infinite;
-      }
-      .running-text:hover {
-        animation-play-state: paused;
-      }
-      @keyframes marquee {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
-      }
-
-      .system-badge-subtitle {
-        font-size: 11px;
-        font-weight: 800;
-        color: var(--text-dark);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding-left: 6px;
-      }
-
-      .nav-menus {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-      .nav-btn {
-        background: transparent;
-        color: var(--text-muted);
-        border: none;
-        padding: 10px 18px;
-        font-weight: 700;
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .nav-btn.active {
-        background: var(--accent-bg);
-        color: var(--accent);
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-        border: 1px solid var(--accent);
-      }
-      .nav-btn:hover:not(.active) {
-        background: rgba(255, 255, 255, 0.5);
-        color: var(--text-dark);
-      }
-
-      /* Theme Controls */
-      .theme-picker-container {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--surface);
-        padding: 6px 12px;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--border);
-      }
-      .theme-select {
-        border: none;
-        background: transparent;
-        color: var(--text-dark);
-        font-weight: 700;
-        font-size: 12px;
-        cursor: pointer;
-        outline: none;
-      }
-      .custom-color-input {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+      /* Penyesuaian class .icon-svg agar pas menampung tag <img> */
+      .icon-svg {
         width: 22px;
         height: 22px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        border-radius: 50%;
-      }
-      .custom-color-input::-webkit-color-swatch {
-        border: 2px solid var(--border);
-        border-radius: 50%;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        object-fit: contain;
       }
 
-      /* Container & Grid */
-      .container {
-        padding: 28px 4%;
+      .app-container {
+        display: flex;
         width: 100%;
-        flex: 1;
-        margin: 0 auto;
-        max-width: 1480px;
+        position: relative;
+        z-index: 1;
       }
+
+      /* --- SIDEBAR --- */
+      .sidebar {
+        width: 310px;
+        background: var(--bg-sidebar);
+        backdrop-filter: blur(35px);
+        -webkit-backdrop-filter: blur(35px);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        padding: 35px 24px;
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.3);
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        margin-top: -10px;
+        margin-bottom: 50px;
+        transition: transform 0.3s ease;
+      }
+      .brand:hover {
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      .brand-icon {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow:
+          0 10px 25px rgba(0, 0, 0, 0.4),
+          0 0 20px rgba(0, 242, 254, 0.2);
+        flex-shrink: 0;
+        padding: 4px;
+      }
+
+      .brand-text h1 {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        line-height: 1.4;
+        background: linear-gradient(135deg, #ffffff, #cbd5e1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      }
+      .brand-text p {
+        font-size: 17px;
+        color: var(--accent-cyan);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        margin-top: 8px;
+        line-height: 1.5;
+        text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+      }
+
+      .nav-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        list-style: none;
+      }
+
+      .nav-item {
+        padding: 16px 20px;
+        border-radius: var(--radius-md);
+        color: var(--text-muted);
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+      .nav-item:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transform: translateX(8px);
+      }
+      .nav-item:hover .icon-svg {
+        transform: scale(1.15) rotate(5deg);
+      }
+      .nav-item:active {
+        transform: translateX(4px) scale(0.96);
+      }
+
+      .nav-item.active {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 242, 254, 0.25),
+          transparent
+        );
+        color: #fff;
+        border-left: 4px solid var(--accent-cyan);
+        border-right: 1px solid rgba(0, 242, 254, 0.3);
+        border-top: 1px solid rgba(0, 242, 254, 0.3);
+        border-bottom: 1px solid rgba(0, 242, 254, 0.3);
+        box-shadow: inset 30px 0 50px -20px rgba(0, 242, 254, 0.4);
+      }
+      .nav-item.active .icon-svg {
+        filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.6));
+      }
+
+      .badge {
+        margin-left: auto;
+        background: linear-gradient(135deg, #ff0844, #ffb199);
+        color: #fff;
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 800;
+        box-shadow: 0 5px 15px rgba(255, 8, 68, 0.5);
+      }
+
+      /* --- MAIN CONTENT --- */
+      .main-content {
+        flex: 1;
+        margin-left: 310px;
+        padding: 40px 55px;
+        display: flex;
+        flex-direction: column;
+        max-width: calc(100vw - 310px);
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 50px;
+        width: 100%;
+      }
+
+      .running-text-wrapper {
+        background: rgba(10, 15, 30, 0.5);
+        border: 1px solid rgba(0, 242, 254, 0.4);
+        border-radius: 40px;
+        padding: 10px 28px;
+        display: flex;
+        align-items: center;
+        max-width: 550px;
+        width: 100%;
+        overflow: hidden;
+        box-shadow:
+          inset 0 0 20px rgba(0, 242, 254, 0.15),
+          0 5px 15px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(15px);
+      }
+
+      .running-text-content {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--accent-cyan);
+        white-space: nowrap;
+        animation: marquee 16s linear infinite;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-120%);
+        }
+      }
+
       .page {
         display: none;
-        animation: fadeSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+        transform: translateY(30px);
       }
       .page.active {
         display: block;
       }
-      @keyframes fadeSlideUp {
-        0% { opacity: 0; transform: translateY(15px); }
-        100% { opacity: 1; transform: translateY(0); }
-      }
-      .grid-layout {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      @media (min-width: 1024px) {
-        .grid-layout {
-          grid-template-columns: 360px 1fr;
+      @keyframes slideUpFade {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
 
-      /* Card Style Modern Glassmorphism */
-      .card {
-        background: var(--surface);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: var(--radius-lg);
-        padding: 28px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--border);
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .card-header {
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 16px;
-        margin-bottom: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-      .card-title {
-        font-size: 19px;
-        font-weight: 800;
-        color: var(--text-dark);
-        letter-spacing: -0.3px;
-      }
-      .card-subtitle {
-        font-size: 13px;
-        color: var(--text-muted);
-        margin-top: 4px;
+      /* --- DASHBOARD CARDS & WELCOME --- */
+      .welcome-section {
+        margin-bottom: 50px;
       }
 
-      /* Search & Sheet Filter Wrapper */
-      .search-wrapper {
-        display: flex;
-        gap: 14px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-      .search-container {
-        position: relative;
-        flex: 1;
-        min-width: 280px;
-      }
-      .search-icon {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--accent);
+      .company-title {
         font-size: 18px;
-      }
-      .search-box {
-        width: 100%;
-        padding: 16px 20px 16px 54px;
-        border: 2px solid var(--border);
-        border-radius: var(--radius-lg);
-        font-size: 15px;
-        font-weight: 600;
-        background: var(--surface);
-        color: var(--text-dark);
-        transition: all 0.25s;
-        box-shadow: var(--shadow-sm);
-      }
-      .search-box:focus {
-        border-color: var(--accent);
-        outline: none;
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-      }
-      .sheet-filter-select {
-        padding: 0 20px;
-        border: 2px solid var(--border);
-        border-radius: var(--radius-lg);
-        font-size: 14px;
-        font-weight: 700;
-        background: var(--surface);
-        color: var(--accent);
-        cursor: pointer;
-        outline: none;
-        min-width: 220px;
-        transition: all 0.25s;
-        box-shadow: var(--shadow-sm);
-      }
-      .sheet-filter-select:focus {
-        border-color: var(--accent);
-      }
-
-      input[type="file"] {
-        width: 100%;
-        padding: 20px;
-        border: 2px dashed var(--border);
-        border-radius: var(--radius-md);
-        font-size: 13px;
-        background: rgba(255, 255, 255, 0.6);
-        color: var(--text-main);
-        cursor: pointer;
-        transition: 0.25s;
-      }
-      input[type="file"]:hover {
-        border-color: var(--accent);
-        background: var(--accent-bg);
-      }
-
-      /* Buttons */
-      .btn {
-        padding: 12px 22px;
-        border-radius: var(--radius-md);
-        font-size: 13px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .btn-accent {
-        background: var(--accent);
-        color: white;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-      }
-      .btn-accent:hover {
-        background: var(--accent-hover);
-        transform: translateY(-2px);
-      }
-      .btn-success {
-        background: var(--success);
-        color: white;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-      }
-      .btn-success:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-      }
-      .btn-danger-outline {
-        background: transparent;
-        border: 1px solid var(--danger);
-        color: var(--danger);
-      }
-      .btn-danger-outline:hover {
-        background: var(--danger);
-        color: white;
-      }
-      .btn-sm {
-        padding: 8px 14px;
-        font-size: 12px;
-        border-radius: 10px;
-      }
-
-      /* Tables Modern */
-      .table-responsive {
-        overflow-x: auto;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--border);
-        background: var(--surface);
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 13px;
-        white-space: nowrap;
-      }
-      th {
-        background: rgba(241, 245, 249, 0.9);
-        color: var(--text-muted);
         font-weight: 800;
-        padding: 16px;
-        text-align: left;
-        border-bottom: 2px solid var(--border);
+        letter-spacing: 4px;
         text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 0.5px;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-      }
-      td {
-        padding: 14px 16px;
-        border-bottom: 1px solid var(--border);
-        vertical-align: middle;
-        color: var(--text-dark);
-      }
-      tbody tr {
-        transition: background 0.2s;
-      }
-      tbody tr:hover {
-        background: rgba(37, 99, 235, 0.04);
-      }
-      .sticky-col {
-        position: sticky;
-        left: 0;
-        background: var(--surface);
-        z-index: 5;
-        border-right: 1px solid var(--border);
-      }
-      th.sticky-col {
-        background: rgba(241, 245, 249, 0.9);
-        z-index: 15;
-      }
-
-      /* QR Interaktif */
-      .qr-clickable {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        padding: 6px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: white;
-        transition: all 0.2s;
-      }
-      .qr-clickable canvas {
-        display: block;
-        border-radius: 6px;
-        width: 60px;
-        height: 60px;
-      }
-      .qr-clickable:hover {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px var(--accent-bg);
-        transform: scale(1.06);
-      }
-
-      /* Sheet Tag Badge */
-      .sheet-tag {
-        display: inline-block;
-        background: var(--accent-bg);
-        color: var(--accent);
-        font-weight: 800;
-        font-size: 11px;
-        padding: 4px 10px;
-        border-radius: 20px;
-        border: 1px solid rgba(37, 99, 235, 0.2);
-      }
-
-      /* Mobile Cards */
-      .data-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        margin-bottom: 16px;
-        display: none;
-        box-shadow: var(--shadow-sm);
-      }
-      .card-item-title {
-        font-size: 16px;
-        font-weight: 800;
-        color: var(--text-dark);
+        background: linear-gradient(
+          90deg,
+          var(--accent-cyan),
+          var(--accent-green)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 12px;
-        line-height: 1.4;
-        text-align: center;
-      }
-      .data-grid {
-        background: rgba(255, 255, 255, 0.5);
-        padding: 14px;
-        border-radius: var(--radius-md);
-        margin-bottom: 16px;
-        border: 1px solid var(--border);
-      }
-      .data-row {
-        display: flex;
-        justify-content: space-between;
-        padding-bottom: 8px;
-        border-bottom: 1px dashed var(--border);
-        font-size: 12px;
-        margin-bottom: 8px;
-      }
-      .data-row:last-child {
-        border: none;
-        padding-bottom: 0;
-        margin-bottom: 0;
-      }
-      .data-label {
-        color: var(--text-muted);
-        font-weight: 600;
-        width: 45%;
-      }
-      .data-val {
-        font-weight: 700;
-        width: 55%;
-        text-align: right;
-        color: var(--text-dark);
-        word-break: break-word;
-      }
-      .badge {
-        background: var(--danger);
-        color: white;
-        padding: 2px 8px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 800;
-        margin-left: 6px;
+        display: inline-block;
+        text-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+        position: relative;
       }
 
-      /* Modal Lightbox QR Code */
-      .modal-overlay {
-        position: fixed;
+      .welcome-section h2 {
+        font-size: 42px;
+        margin-bottom: 12px;
+        font-weight: 800;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+      .welcome-section p {
+        font-size: 16px;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 35px;
+        margin-bottom: 55px;
+      }
+
+      .dash-card {
+        background: var(--bg-card);
+        backdrop-filter: blur(35px);
+        -webkit-backdrop-filter: blur(35px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-lg);
+        padding: 45px 35px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      }
+      .dash-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: 0.5s;
+        pointer-events: none;
+      }
+      .dash-card:hover {
+        transform: translateY(-12px);
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+      .dash-card:hover::after {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      .dash-card:active {
+        transform: scale(0.96) translateY(0);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .dash-card::before {
+        content: "";
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        bottom: 0;
-        background: rgba(15, 23, 42, 0.85);
-        backdrop-filter: blur(8px);
+        height: 6px;
+      }
+      .dash-card.blue::before {
+        background: linear-gradient(
+          90deg,
+          var(--accent-cyan),
+          var(--accent-blue)
+        );
+      }
+      .dash-card.green::before {
+        background: linear-gradient(90deg, var(--accent-green), #00b09b);
+      }
+      .dash-card.purple::before {
+        background: linear-gradient(90deg, #b06ab3, #4568dc);
+      }
+
+      .dash-card:hover.blue {
+        box-shadow:
+          0 30px 60px rgba(0, 0, 0, 0.6),
+          var(--shadow-glow-cyan);
+      }
+      .dash-card:hover.green {
+        box-shadow:
+          0 30px 60px rgba(0, 0, 0, 0.6),
+          0 0 30px rgba(0, 242, 96, 0.3);
+      }
+      .dash-card:hover.purple {
+        box-shadow:
+          0 30px 60px rgba(0, 0, 0, 0.6),
+          0 0 30px rgba(176, 106, 179, 0.3);
+      }
+
+      .dash-card .icon-wrapper {
+        width: 85px;
+        height: 85px;
+        border-radius: 24px;
+        margin: 0 auto 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
+        transition: transform 0.4s;
+      }
+      .dash-card:hover .icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      /* Modifikasi .icon-wrapper agar gambar IMG pas di tengah */
+      .dash-card .icon-wrapper img {
+        width: 75px;
+        height: 75px;
+        object-fit: contain;
+        filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        transition: transform 0.4s;
+      }
+
+      .dash-card.blue .icon-wrapper {
+        background: rgba(0, 242, 254, 0.15);
+        border: 2px solid rgba(0, 242, 254, 0.3);
+      }
+      .dash-card.green .icon-wrapper {
+        background: rgba(0, 242, 96, 0.15);
+        border: 2px solid rgba(0, 242, 96, 0.3);
+      }
+      .dash-card.purple .icon-wrapper {
+        background: rgba(176, 106, 179, 0.15);
+        border: 2px solid rgba(176, 106, 179, 0.3);
+      }
+
+      .dash-card h3 {
+        font-size: 22px;
+        margin-bottom: 14px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+      .dash-card p {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 30px;
+        line-height: 1.7;
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        background: var(--bg-card);
+        backdrop-filter: blur(35px);
+        border-radius: var(--radius-lg);
+        padding: 40px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      }
+      .stat-item {
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .stat-item:last-child {
+        border-right: none;
+      }
+      .stat-item h4 {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+      .stat-item .val {
+        font-size: 38px;
+        font-weight: 800;
+        color: #fff;
+        text-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      /* --- KOMPONEN FORM & HEADER --- */
+      .content-header {
+        margin-bottom: 35px;
+      }
+      .content-header h2 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+      .content-header p {
+        font-size: 15px;
+        color: var(--text-muted);
+      }
+
+      .controls-wrapper {
+        display: flex;
+        gap: 25px;
+        margin-bottom: 35px;
+        background: var(--bg-card);
+        backdrop-filter: blur(35px);
+        padding: 35px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        align-items: flex-end;
+      }
+      .input-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .input-group label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 0.5px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 16px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        background: var(--bg-input);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        color: #fff;
+        outline: none;
+        transition: all 0.3s;
+        box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
+        height: 56px;
+      }
+      .form-control:focus {
+        border-color: var(--accent-cyan);
+        box-shadow: var(--shadow-glow-cyan);
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .btn {
+        padding: 0 30px;
+        height: 56px;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        letter-spacing: 0.5px;
+        z-index: 1;
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transform: skewX(-20deg);
+        transition: 0s;
+        z-index: -1;
+      }
+      .btn:hover::after {
+        left: 150%;
+        transition: 0.7s ease-in-out;
+      }
+      .btn:active {
+        transform: scale(0.92);
+      }
+      .btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--accent-cyan),
+          var(--accent-blue)
+        );
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 242, 254, 0.35);
+      }
+      .btn-primary:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 242, 254, 0.5);
+        filter: brightness(1.15);
+      }
+      .btn-success {
+        background: linear-gradient(135deg, #00f260, #0575e6);
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 242, 96, 0.35);
+      }
+      .btn-success:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 242, 96, 0.5);
+        filter: brightness(1.15);
+      }
+      .btn-danger-outline {
+        background: rgba(255, 8, 68, 0.1);
+        border: 2px solid var(--danger);
+        color: var(--text-main);
+      }
+      .btn-danger-outline:hover {
+        background: linear-gradient(135deg, #ff0844, #ffb199);
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(255, 8, 68, 0.4);
+        transform: translateY(-3px);
+        border-color: transparent;
+      }
+
+      .btn-sm {
+        padding: 0 20px;
+        height: 40px;
+        font-size: 13px;
+        border-radius: 8px;
+      }
+
+      /* --- TABEL --- */
+      .table-container {
+        background: var(--bg-card);
+        backdrop-filter: blur(35px);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+      }
+      table {
+        width: max-content;
+        min-width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 14px;
+      }
+
+      th {
+        background: rgba(0, 0, 0, 0.6);
+        color: var(--accent-cyan);
+        font-weight: 800;
+        padding: 18px 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      td {
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        color: #e2e8f0;
+        vertical-align: middle;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .fit-col {
+        width: 1%;
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      tbody tr {
+        transition: all 0.2s;
+      }
+      tbody tr:hover {
+        background: rgba(0, 242, 254, 0.12);
+        transform: scale(1.001);
+        box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.05);
+      }
+
+      .qr-wrapper {
+        background: #fff;
+        padding: 6px;
+        border-radius: 12px;
+        margin: 0 auto;
+        display: inline-block;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      }
+      .qr-wrapper:hover {
+        transform: scale(1.3) rotate(5deg);
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.7),
+          0 0 30px var(--accent-cyan);
+        z-index: 10;
+        position: relative;
+      }
+      .qr-wrapper:active {
+        transform: scale(0.95);
+      }
+      .qr-wrapper canvas {
+        display: block;
+        width: 50px;
+        height: 50px;
+      }
+
+      .sheet-badge {
+        background: rgba(176, 106, 179, 0.2);
+        border: 1px solid rgba(176, 106, 179, 0.5);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        color: #e9d5ff;
+        font-weight: 800;
+        display: inline-block;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* --- UPLOAD BOX --- */
+      .upload-box {
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        border-radius: var(--radius-lg);
+        padding: 70px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: rgba(0, 0, 0, 0.4);
+        position: relative;
+      }
+      .upload-box:hover {
+        border-color: var(--accent-cyan);
+        background: rgba(0, 242, 254, 0.1);
+        box-shadow: inset 0 0 50px rgba(0, 242, 254, 0.2);
+      }
+      .upload-box:active {
+        transform: scale(0.98);
+      }
+      .upload-box svg {
+        width: 60px;
+        height: 60px;
+        color: var(--accent-cyan);
+        margin-bottom: 20px;
+        filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+      }
+      .upload-box input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      /* --- MODAL POPUP --- */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 11, 20, 0.95);
+        backdrop-filter: blur(25px);
         z-index: 9999;
         display: none;
         justify-content: center;
         align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
         padding: 20px;
       }
       .modal-overlay.show {
         display: flex;
-        opacity: 1;
+        animation: modalPopIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
+      @keyframes modalPopIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
       .modal-content {
-        background: var(--surface);
+        background: linear-gradient(
+          145deg,
+          rgba(30, 41, 59, 0.95),
+          rgba(15, 23, 42, 0.98)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: var(--radius-lg);
+        padding: 40px;
         width: 100%;
-        max-width: 450px;
-        padding: 28px;
+        max-width: 500px;
+        text-align: center;
         position: relative;
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-        box-shadow: var(--shadow-lg);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid var(--border);
-      }
-      .modal-overlay.show .modal-content {
-        transform: scale(1);
+        box-shadow:
+          0 50px 100px rgba(0, 0, 0, 0.9),
+          0 0 50px rgba(0, 242, 254, 0.25);
+        max-height: 90vh;
+        overflow-y: auto;
       }
       .modal-close {
         position: absolute;
-        top: 16px;
-        right: 16px;
-        background: rgba(0, 0, 0, 0.05);
+        top: 20px;
+        right: 25px;
+        background: transparent;
         border: none;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        font-size: 18px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         color: var(--text-muted);
+        font-size: 32px;
+        cursor: pointer;
         transition: 0.2s;
       }
       .modal-close:hover {
-        background: var(--danger);
-        color: white;
+        color: var(--danger);
+        transform: rotate(90deg) scale(1.2);
       }
       .modal-qr-box {
-        padding: 14px;
-        border: 2px solid var(--border);
-        border-radius: 18px;
-        background: white;
-        margin-bottom: 16px;
+        background: #fff;
+        padding: 25px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 25px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
       }
-      .modal-qr-box canvas {
-        display: block;
-        width: 240px;
-        height: 240px;
-        max-width: 100%;
-        border-radius: 8px;
-      }
-      .modal-title {
-        font-size: 18px;
-        font-weight: 800;
-        color: var(--text-dark);
-        text-align: center;
-        margin-bottom: 16px;
-        padding: 0 20px;
-      }
+
       .modal-data-text {
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid var(--border);
-        padding: 16px;
-        border-radius: 12px;
-        font-family: monospace;
-        font-size: 13px;
-        font-weight: 600;
-        width: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 24px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 14px;
+        text-align: left;
+        font-family: "Plus Jakarta Sans", monospace;
         white-space: pre-wrap;
-        color: var(--text-dark);
-        line-height: 1.6;
+        word-break: break-word;
+        line-height: 2;
+        box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.5);
       }
 
-      @media (max-width: 1024px) {
-        .navbar {
-          padding: 12px 16px;
-        }
-        .container {
-          padding: 20px 16px;
-          padding-bottom: 100px;
-        }
-        .desktop-table {
-          display: none;
-        }
-        .data-card {
-          display: block;
-        }
-        .nav-menus {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: var(--surface);
-          backdrop-filter: blur(16px);
-          padding: 8px 12px;
-          justify-content: space-around;
-          box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-          border-top: 1px solid var(--border);
-          z-index: 100;
-        }
-        .nav-btn {
-          flex-direction: column;
-          gap: 4px;
-          flex: 1;
-          padding: 8px 0;
-          font-size: 11px;
-          border-radius: 12px;
-        }
-        .nav-btn.active {
-          background: transparent;
-          color: var(--accent);
-          box-shadow: none;
-          border: none;
-        }
-        .search-wrapper {
-          flex-direction: column;
-        }
-        .sheet-filter-select {
-          width: 100%;
-          padding: 14px;
-        }
-        .brand-container {
-          max-width: 200px;
-        }
-      }
-
+      /* Toast Modern */
       #toast-container {
         position: fixed;
-        bottom: 100px;
-        right: 24px;
-        z-index: 9998;
+        bottom: 40px;
+        right: 40px;
+        z-index: 9999;
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        pointer-events: none;
-      }
-      @media (min-width: 1024px) {
-        #toast-container {
-          bottom: 32px;
-        }
+        gap: 16px;
       }
       .toast {
-        background: var(--text-dark);
-        color: white;
-        padding: 14px 22px;
-        border-radius: 14px;
-        font-weight: 600;
-        font-size: 13px;
-        box-shadow: var(--shadow-lg);
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 242, 96, 0.5);
+        border-left: 8px solid var(--accent-green);
+        padding: 20px 30px;
+        border-radius: 16px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+        font-size: 15px;
+        font-weight: 700;
         display: flex;
         align-items: center;
-        gap: 12px;
-        animation: slideIn 0.3s forwards;
+        gap: 16px;
+        animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }
-      .toast.success {
-        border-left: 4px solid var(--success);
+      .toast svg {
+        width: 26px;
+        height: 26px;
+        color: var(--accent-green);
       }
       .toast.error {
-        background: #7f1d1d;
-        border-left: 4px solid var(--danger);
+        border-color: rgba(255, 8, 68, 0.5);
+        border-left: 8px solid var(--danger);
       }
-      @keyframes slideIn {
-        from { transform: translateX(120%); }
-        to { transform: translateX(0); }
+      .toast.error svg {
+        color: var(--danger);
       }
-      @keyframes fadeOut {
-        to { opacity: 0; transform: scale(0.9); }
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
       }
-      #hiddenCanvasContainer {
+
+      /* Responsive Basic */
+      .hamburger-menu {
         display: none;
+        background: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .hamburger-menu:hover {
+        color: var(--accent-cyan);
+        transform: scale(1.1);
+      }
+      @media (max-width: 1024px) {
+        .sidebar {
+          transform: translateX(-100%);
+          width: 280px;
+        }
+        .sidebar.show {
+          transform: translateX(0);
+        }
+        .main-content {
+          margin-left: 0;
+          padding: 25px;
+          max-width: 100vw;
+        }
+        .hamburger-menu {
+          display: block;
+        }
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-container {
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+        .stat-item {
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          padding-bottom: 20px;
+        }
+        .controls-wrapper {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .topbar {
+          justify-content: space-between;
+          gap: 20px;
+        }
+        .running-text-wrapper {
+          max-width: 100%;
+        }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar">
-      <div class="brand-container">
-        <!-- TEKS BERJALAN PT DAYA SAKTI NIAGA -->
-        <div class="running-text-container">
-          <div class="running-text">
-            🏢 PT DAYA SAKTI NIAGA &nbsp;&nbsp;&bull;&nbsp;&nbsp; Smart Material Management &nbsp;&nbsp;&bull;&nbsp;&nbsp; 🏢 PT DAYA SAKTI NIAGA
-          </div>
-        </div>
-        <!-- KETERANGAN REVISI: SISTEM PEMBUATAN BARCODE -->
-        <div class="system-badge-subtitle">
-          🏷️ SISTEM PEMBUATAN BARCODE
-        </div>
-      </div>
-
-      <div class="nav-menus">
-        <!-- COLOR PICKER KUSTOM + PRESET BEBAS WARNA -->
-        <div class="theme-picker-container">
-          🎨
-          <select id="themeSelect" class="theme-select" onchange="changeTheme(this.value)">
-            <option value="default">Light Default (Putih)</option>
-            <option value="dark">Dark Mode</option>
-            <option value="emerald">Emerald Green</option>
-            <option value="purple">Soft Purple</option>
-            <option value="warm">Warm Sand</option>
-          </select>
-          <input
-            type="color"
-            id="customBgPicker"
-            class="custom-color-input"
-            value="#f8fafc"
-            title="Pilih Warna Background Bebas"
-            onchange="applyCustomBackgroundColor(this.value)"
-          />
-        </div>
-
-        <button class="nav-btn active" onclick="switchTab('pencarian', this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <span>PENCARIAN</span>
-        </button>
-        <button class="nav-btn" onclick="switchTab('terpilih', this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="17 8 12 3 7 8"></polyline>
-            <line x1="12" y1="3" x2="12" y2="15"></line>
-          </svg>
-          <span>EXPORT PENCARIAN</span>
-          <span class="badge" id="count-badge" style="display: none">0</span>
-        </button>
-        <button class="nav-btn" onclick="switchTab('database', this)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-          </svg>
-          <span>DATABASE</span>
-        </button>
-      </div>
-    </nav>
-
-    <div class="container">
-      <!-- PENCARIAN -->
-      <div id="page-pencarian" class="page active">
-        <div class="search-wrapper">
-          <div class="search-container">
-            <div class="search-icon">🔍</div>
-            <input
-              type="text"
-              id="searchInput"
-              class="search-box"
-              placeholder="Ketik kata kunci pencarian..."
-              autocomplete="off"
-              autofocus
+    <div class="app-container">
+      <!-- ================= SIDEBAR ================= -->
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-icon">
+            <img
+              src="https://lh3.googleusercontent.com/d/1NX630osVVyJUvPzczutceKaOsoBKZn02"
+              alt="Logo PT Daya Sakti Niaga"
+              style="width: 100%; height: 100%; object-fit: cover"
             />
           </div>
-          <!-- PILIH SHEET DROPDOWN -->
-          <select id="sheetFilterSelect" class="sheet-filter-select" onchange="triggerSearchNow()">
-            <option value="ALL">📁 Semua Sheet</option>
-          </select>
+          <div class="brand-text">
+            <h1>Sistem Pembuatan<br />Barcode</h1>
+            <p>Secara Otomatis<br />Dan Instan</p>
+          </div>
         </div>
 
-        <div
-          style="
-            background: var(--surface);
-            color: var(--text-dark);
-            padding: 14px 20px;
-            border-radius: var(--radius-md);
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            border: 1px solid var(--border);
-            line-height: 1.5;
-            box-shadow: var(--shadow-sm);
-          "
-        >
-          💡 <strong>Sistem Pembuatan Barcode & Pencarian Presisi:</strong> Mendukung pencarian berdasar Sheet terpilih dan pencetakan otomatis QR Code/Barcode secara instan.
+        <ul class="nav-menu">
+          <!-- MENGGANTI Ikon Bawaan menjadi Icon Image dari Google Drive Anda -->
+          <li class="nav-item active" onclick="switchPage('dashboard', this)">
+            <img
+              src="https://lh3.googleusercontent.com/d/1nVFdGimuqnkyK-0iqKgGoI6MqXKTmjK-"
+              class="icon-svg"
+              alt="Dashboard"
+            />
+            Dashboard
+          </li>
+          <li class="nav-item" onclick="switchPage('pencarian', this)">
+            <img
+              src="https://lh3.googleusercontent.com/d/1MEGItRX8aanIVqvphpbvuMSL07WQiacG"
+              class="icon-svg"
+              alt="Pencarian"
+            />
+            Pencarian
+          </li>
+          <li class="nav-item" onclick="switchPage('terpilih', this)">
+            <img
+              src="https://lh3.googleusercontent.com/d/1O-3Tr1eYFXBgFaI4rQs5z2I5t0LsGFnS"
+              class="icon-svg"
+              alt="Export Pencarian"
+            />
+            Export Pencarian
+            <span class="badge" id="count-badge" style="display: none">0</span>
+          </li>
+          <li class="nav-item" onclick="switchPage('database', this)">
+            <img
+              src="https://lh3.googleusercontent.com/d/1Gzhkt9KShiU-0Uq8r-mkvAJ_8Bdnlh_r"
+              class="icon-svg"
+              alt="Database"
+            />
+            Database
+          </li>
+        </ul>
+      </aside>
+
+      <!-- ================= MAIN CONTENT ================= -->
+      <main class="main-content">
+        <div class="topbar">
+          <button
+            class="hamburger-menu"
+            onclick="
+              document.getElementById('sidebar').classList.toggle('show')
+            "
+          >
+            <svg
+              width="32"
+              height="32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+          <div class="running-text-wrapper">
+            <div class="running-text-content">
+              Sistem Pembuatan Barcode secara Otomatis melalui Unggahan File
+              Excell &nbsp;&nbsp;&bull;&nbsp;&nbsp; PT Daya Sakti Niaga
+              &nbsp;&nbsp;&bull;&nbsp;&nbsp; Sistem Pembuatan Barcode secara
+              Otomatis melalui Unggahan File Excell
+            </div>
+          </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">Hasil Pencarian Material</h2>
-              <p class="card-subtitle">
-                Mencari kata kunci di seluruh kolom file & sheet Excel.
+        <!-- ================= HALAMAN 1: DASHBOARD ================= -->
+        <div id="page-dashboard" class="page active">
+          <div class="welcome-section">
+            <h4 class="company-title">PT Daya Sakti Niaga</h4>
+            <h2>Selamat Datang!</h2>
+            <p>
+              Manajemen pengelolaan data menjadi barcode dengan antarmuka super
+              responsif dan presisi tinggi.
+            </p>
+          </div>
+
+          <div class="dashboard-grid">
+            <div
+              class="dash-card blue"
+              onclick="
+                switchPage(
+                  'pencarian',
+                  document.querySelectorAll('.nav-item')[1],
+                )
+              "
+            >
+              <div class="icon-wrapper">
+                <!-- MENGGANTI Ikon Bawaan Kotak Dashboard menjadi Icon Image -->
+                <img
+                  src="https://lh3.googleusercontent.com/d/1MEGItRX8aanIVqvphpbvuMSL07WQiacG"
+                  alt="Pencarian"
+                />
+              </div>
+              <h3>PENCARIAN</h3>
+              <p>
+                Cari data barang berdasarkan nama barang atau kata kunci secara
+                instan.
               </p>
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 800;
+                  color: var(--accent-cyan);
+                "
+              >
+                Buka Menu →
+              </div>
+            </div>
+            <div
+              class="dash-card green"
+              onclick="
+                switchPage(
+                  'terpilih',
+                  document.querySelectorAll('.nav-item')[2],
+                )
+              "
+            >
+              <div class="icon-wrapper">
+                <!-- MENGGANTI Ikon Bawaan Kotak Dashboard menjadi Icon Image -->
+                <img
+                  src="https://lh3.googleusercontent.com/d/1O-3Tr1eYFXBgFaI4rQs5z2I5t0LsGFnS"
+                  alt="Export"
+                />
+              </div>
+              <h3>EXPORT PENCARIAN</h3>
+              <p>
+                Kumpulkan, siapkan, dan export data pencarian ke Excel &
+                Barcode.
+              </p>
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 800;
+                  color: var(--accent-green);
+                "
+              >
+                Buka Menu →
+              </div>
+            </div>
+            <div
+              class="dash-card purple"
+              onclick="
+                switchPage(
+                  'database',
+                  document.querySelectorAll('.nav-item')[3],
+                )
+              "
+            >
+              <div class="icon-wrapper">
+                <!-- MENGGANTI Ikon Bawaan Kotak Dashboard menjadi Icon Image -->
+                <img
+                  src="https://lh3.googleusercontent.com/d/1Gzhkt9KShiU-0Uq8r-mkvAJ_8Bdnlh_r"
+                  alt="Database"
+                />
+              </div>
+              <h3>DATABASE</h3>
+              <p>
+                Kelola file database master (Excel) dan pantau riwayat unduhan.
+              </p>
+              <div style="font-size: 14px; font-weight: 800; color: #d6a4ff">
+                Buka Menu →
+              </div>
             </div>
           </div>
 
-          <div id="search-desktop-container" class="desktop-table table-responsive">
+          <div class="stats-container">
+            <div class="stat-item">
+              <h4>Total Data</h4>
+              <div class="val" id="stat-total-data">0</div>
+            </div>
+            <div class="stat-item">
+              <h4>Total Export</h4>
+              <div class="val" id="stat-total-export">0</div>
+            </div>
+            <div class="stat-item">
+              <h4>File Database</h4>
+              <div class="val" id="stat-file-db">0</div>
+            </div>
+            <div class="stat-item">
+              <h4>Terakhir Export</h4>
+              <div
+                class="val"
+                id="stat-last-export"
+                style="font-size: 18px; margin-top: 20px; letter-spacing: 0.5px"
+              >
+                -
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= HALAMAN 2: PENCARIAN ================= -->
+        <div id="page-pencarian" class="page">
+          <div class="content-header">
+            <h2>PENCARIAN</h2>
+            <p>Temukan data secara presisi di seluruh sheet database.</p>
+          </div>
+
+          <div class="controls-wrapper">
+            <div class="input-group">
+              <label>Ketik Kata Kunci</label>
+              <input
+                type="text"
+                id="searchInput"
+                class="form-control"
+                placeholder="Masukkan barcode atau nama barang..."
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group" style="max-width: 350px">
+              <label>Pilih Sheet Sumber</label>
+              <select
+                id="sheetFilterSelect"
+                class="form-control"
+                onchange="triggerSearchNow()"
+              >
+                <option value="ALL">Semua Sheet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
             <table id="searchTable">
               <thead>
                 <tr id="searchHeader">
                   <th>Daftar Pencarian</th>
                 </tr>
               </thead>
-              <tbody id="searchBody"></tbody>
+              <tbody id="searchBody">
+                <tr>
+                  <td
+                    style="
+                      text-align: center;
+                      color: var(--text-muted);
+                      padding: 50px;
+                    "
+                  >
+                    Mulai ketik di kolom pencarian...
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
-          <div id="search-mobile-container">
-            <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-              Mulai ketik di kolom pencarian.
-            </div>
-          </div>
         </div>
-      </div>
 
-      <!-- DATA TERPILIH -->
-      <div id="page-terpilih" class="page">
-        <div class="card">
-          <div class="card-header">
+        <!-- ================= HALAMAN 3: EXPORT ================= -->
+        <div id="page-terpilih" class="page">
+          <div
+            class="content-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-end;
+              flex-wrap: wrap;
+              gap: 15px;
+            "
+          >
             <div>
-              <h2 class="card-title">Data Siap Export Barcode</h2>
-              <p class="card-subtitle">Data Excel & QR Code/Barcode siap diunduh.</p>
+              <h2>EXPORT PENCARIAN</h2>
+              <p>Daftar tunggu yang presisi untuk di-export ke Excel.</p>
             </div>
-            <div style="display: flex; gap: 10px; margin-top: 10px">
-              <button class="btn btn-danger-outline btn-sm" onclick="clearSelected()">
+            <div style="display: flex; gap: 14px">
+              <button class="btn btn-danger-outline" onclick="clearSelected()">
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
+                </svg>
                 Hapus Semua
               </button>
-              <button class="btn btn-success btn-sm" onclick="downloadExcel()">
-                📥 Unduh Excel & Barcode
+              <button class="btn btn-success" onclick="downloadExcel()">
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  ></path>
+                </svg>
+                Unduh File Excel
               </button>
             </div>
           </div>
-          <div id="selected-desktop-container" class="desktop-table table-responsive">
+
+          <div class="table-container">
             <table id="selectedTable">
               <thead>
                 <tr id="selectedHeader">
-                  <th>Belum ada data...</th>
+                  <th>Data Belum Dipilih...</th>
                 </tr>
               </thead>
-              <tbody id="selectedBody"></tbody>
+              <tbody id="selectedBody">
+                <tr>
+                  <td
+                    style="
+                      text-align: center;
+                      color: var(--text-muted);
+                      padding: 50px;
+                    "
+                  >
+                    Daftar kosong. Tambahkan dari menu pencarian.
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
-          <div id="selected-mobile-container">
-            <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-              Daftar kosong.
+        </div>
+
+        <!-- ================= HALAMAN 4: DATABASE ================= -->
+        <div id="page-database" class="page">
+          <div class="content-header">
+            <h2>DATABASE & RIWAYAT</h2>
+            <p>Pusat kontrol file sumber (Excel) dan log aktivitas export.</p>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+              gap: 35px;
+            "
+          >
+            <div>
+              <div
+                style="
+                  background: var(--bg-card);
+                  backdrop-filter: blur(30px);
+                  padding: 40px;
+                  border-radius: var(--radius-lg);
+                  border: 1px solid var(--border-color);
+                  margin-bottom: 35px;
+                  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+                "
+              >
+                <h3
+                  style="font-size: 22px; margin-bottom: 24px; font-weight: 800"
+                >
+                  Upload Database Baru
+                </h3>
+                <div class="upload-box">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+                    ></path>
+                  </svg>
+                  <h4
+                    style="
+                      font-size: 18px;
+                      margin-bottom: 12px;
+                      font-weight: 800;
+                    "
+                  >
+                    Tarik & Lepas File Excel Ke Sini
+                  </h4>
+                  <p
+                    style="
+                      font-size: 14px;
+                      color: var(--text-muted);
+                      font-weight: 500;
+                    "
+                  >
+                    Format: .xlsx, .xls, .csv
+                  </p>
+                  <input
+                    type="file"
+                    id="fileUpload"
+                    accept=".xlsx, .xls, .csv"
+                    multiple
+                  />
+                </div>
+              </div>
+
+              <div
+                style="
+                  background: var(--bg-card);
+                  backdrop-filter: blur(30px);
+                  padding: 40px;
+                  border-radius: var(--radius-lg);
+                  border: 1px solid var(--border-color);
+                  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 25px;
+                    align-items: center;
+                  "
+                >
+                  <h3 style="font-size: 22px; font-weight: 800">
+                    Master Data File
+                  </h3>
+                  <button
+                    class="btn btn-danger-outline btn-sm"
+                    onclick="clearDatabase()"
+                  >
+                    Kosongkan DB
+                  </button>
+                </div>
+                <div
+                  id="fileListContainer"
+                  style="display: flex; flex-direction: column; gap: 16px"
+                ></div>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: var(--bg-card);
+                backdrop-filter: blur(30px);
+                padding: 40px;
+                border-radius: var(--radius-lg);
+                border: 1px solid var(--border-color);
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+              "
+            >
+              <h3
+                style="font-size: 22px; margin-bottom: 25px; font-weight: 800"
+              >
+                Riwayat Export
+              </h3>
+              <div
+                id="exportHistoryContainer"
+                style="display: flex; flex-direction: column; gap: 16px"
+              ></div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- DATABASE -->
-      <div id="page-database" class="page">
-        <div class="grid-layout">
-          <div class="card" style="align-self: start">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">Upload File Excel</h2>
-                <p class="card-subtitle">Mendukung format .xlsx, .xls, .csv</p>
-              </div>
-            </div>
-            <input type="file" id="fileUpload" accept=".xlsx, .xls, .csv" multiple />
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <h2 class="card-title">Semua Data File Excel</h2>
-                <p class="card-subtitle" id="dbInfoSubtitle">Memuat data...</p>
-              </div>
-              <button class="btn btn-danger-outline btn-sm" onclick="clearDatabase()">
-                Hapus Semua File
-              </button>
-            </div>
-            <div id="fileListContainer" style="display: flex; flex-direction: column; gap: 16px"></div>
-          </div>
-        </div>
-      </div>
+      </main>
     </div>
 
-    <!-- MODAL LIGHTBOX QR CODE / BARCODE -->
+    <!-- MODAL POPUP QR/BARCODE PRESISI TINGGI -->
     <div id="qrModal" class="modal-overlay">
       <div class="modal-content">
         <button class="modal-close" onclick="closeModal()">✕</button>
-        <div class="modal-title" id="modalTitle">Scan Barcode / QR Code</div>
+        <h3
+          id="modalTitle"
+          style="
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+          "
+        >
+          Detail Barcode
+        </h3>
         <div class="modal-qr-box"><canvas id="modalCanvas"></canvas></div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px; text-align: center;">
-          Silahkan Scan Barcode!
+        <p
+          style="
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-weight: 700;
+          "
+        >
+          Data Spesifikasi:
         </p>
         <div class="modal-data-text" id="modalDataText"></div>
       </div>
     </div>
 
     <div id="toast-container"></div>
-    <div id="hiddenCanvasContainer"><canvas id="hiddenCanvas"></canvas></div>
+    <div id="hiddenCanvasContainer" style="display: none">
+      <canvas id="hiddenCanvas"></canvas>
+    </div>
 
+    <!-- ================= JAVASCRIPT SYSTEM ================= -->
     <script>
-      /* ================= CORE SYSTEM & UTILS ================= */
       let dbFiles = [];
       let dbSelected = [];
+      let exportHistory = [];
       let searchTimeout = null;
+
+      function switchPage(pageId, btnElement) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((b) => b.classList.remove("active"));
+
+        document.getElementById("page-" + pageId).classList.add("active");
+        btnElement.classList.add("active");
+
+        if (pageId === "pencarian") {
+          setTimeout(() => document.getElementById("searchInput").focus(), 100);
+        }
+        if (window.innerWidth <= 1024) {
+          document.getElementById("sidebar").classList.remove("show");
+        }
+      }
 
       function showToast(message, type = "success") {
         const container = document.getElementById("toast-container");
         const toast = document.createElement("div");
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `<span>${type === "success" ? "✅" : "❌"}</span> <span>${message}</span>`;
+        toast.className = type === "success" ? "toast" : "toast error";
+
+        const iconSvg =
+          type === "success"
+            ? `<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+            : `<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+
+        toast.innerHTML = `${iconSvg} <span>${message}</span>`;
         container.appendChild(toast);
         setTimeout(() => {
-          toast.style.animation = "fadeOut 0.3s forwards";
+          toast.style.opacity = "0";
+          toast.style.transform = "translateX(100%)";
+          toast.style.transition = "all 0.3s ease";
           setTimeout(() => toast.remove(), 300);
         }, 3500);
-      }
-
-      function switchTab(tabId, btnElement) {
-        document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
-        document.querySelectorAll(".nav-btn").forEach((b) => b.classList.remove("active"));
-        document.getElementById("page-" + tabId).classList.add("active");
-        btnElement.classList.add("active");
-        if (tabId === "pencarian")
-          setTimeout(() => document.getElementById("searchInput").focus(), 100);
-      }
-
-      /* ================= WARNA BACKGROUND DEFAULT PUTIH ================= */
-      async function changeTheme(themeName) {
-        document.body.className = "";
-        
-        if (themeName === "default") {
-          // KEMBALIKAN KE BACKGROUND DEFAULT DENGAN TEMA PUTIH
-          document.body.style.backgroundImage = 'linear-gradient(rgba(248, 250, 252, 0.88), rgba(248, 250, 252, 0.88)), url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80")';
-          document.body.style.setProperty("--surface", "rgba(255, 255, 255, 0.92)");
-          document.body.style.setProperty("--text-main", "#334155");
-          document.body.style.setProperty("--text-dark", "#0f172a");
-          document.body.style.setProperty("--border", "#cbd5e1");
-        } else if (themeName !== "custom") {
-          document.body.classList.add("theme-" + themeName);
-        }
-        await localforage.setItem("appThemePreference", themeName);
-      }
-
-      async function applyCustomBackgroundColor(hexColor) {
-        document.body.className = "";
-        
-        // Pilihan background warna kustom dengan overlay transparan gambar pabrik
-        const isDark = getLuminance(hexColor) < 0.5;
-        const opacity = isDark ? 0.85 : 0.88;
-        
-        document.body.style.backgroundImage = `linear-gradient(rgba(${hexToRgb(hexColor)}, ${opacity}), rgba(${hexToRgb(hexColor)}, ${opacity})), url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80")`;
-        
-        if (isDark) {
-          document.body.style.setProperty("--surface", adjustColor(hexColor, 20) + "ea");
-          document.body.style.setProperty("--text-main", "#e2e8f0");
-          document.body.style.setProperty("--text-dark", "#ffffff");
-          document.body.style.setProperty("--border", adjustColor(hexColor, 40));
-        } else {
-          document.body.style.setProperty("--surface", "rgba(255, 255, 255, 0.92)");
-          document.body.style.setProperty("--text-main", "#334155");
-          document.body.style.setProperty("--text-dark", "#0f172a");
-          document.body.style.setProperty("--border", "#cbd5e1");
-        }
-
-        document.getElementById("themeSelect").value = "custom";
-        await localforage.setItem("appThemePreference", "custom");
-        await localforage.setItem("appCustomColor", hexColor);
-      }
-
-      function hexToRgb(hex) {
-        const c = hex.replace("#", "");
-        const rgb = parseInt(c, 16);
-        const r = (rgb >> 16) & 0xff;
-        const g = (rgb >> 8) & 0xff;
-        const b = (rgb >> 0) & 0xff;
-        return `${r}, ${g}, ${b}`;
-      }
-
-      function getLuminance(hex) {
-        const c = hex.replace("#", "");
-        const rgb = parseInt(c, 16);
-        const r = (rgb >> 16) & 0xff;
-        const g = (rgb >> 8) & 0xff;
-        const b = (rgb >> 0) & 0xff;
-        return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-      }
-
-      function adjustColor(hex, amount) {
-        let usePound = false;
-        if (hex[0] == "#") {
-          hex = hex.slice(1);
-          usePound = true;
-        }
-        let num = parseInt(hex, 16);
-        let r = (num >> 16) + amount;
-        if (r > 255) r = 255; else if (r < 0) r = 0;
-        let b = ((num >> 8) & 0x00FF) + amount;
-        if (b > 255) b = 255; else if (b < 0) b = 0;
-        let g = (num & 0x0000FF) + amount;
-        if (g > 255) g = 255; else if (g < 0) g = 0;
-        return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16).padStart(6, '0');
       }
 
       window.onload = async function () {
         const savedFiles = await localforage.getItem("dbFilesMultiSheet");
         const savedSelected = await localforage.getItem("dbSelectedMultiSheet");
-        const savedTheme = await localforage.getItem("appThemePreference");
-        const savedCustomColor = await localforage.getItem("appCustomColor");
+        const savedHistory = await localforage.getItem("appExportHistory");
 
         if (savedFiles) dbFiles = savedFiles;
         if (savedSelected) dbSelected = savedSelected;
+        if (savedHistory) exportHistory = savedHistory;
 
-        // KETIKA PERTAMA KALI LOGIN / BUKA, SELALU DEFAULT PUTIH JIKA BELUM ADA TEMA TERSIMPAN
-        if (savedTheme) {
-          if (savedTheme === "custom" && savedCustomColor) {
-            document.getElementById("customBgPicker").value = savedCustomColor;
-            applyCustomBackgroundColor(savedCustomColor);
-          } else {
-            document.getElementById("themeSelect").value = savedTheme;
-            changeTheme(savedTheme);
-          }
-        } else {
-          changeTheme("default");
-        }
         updateUI();
       };
 
@@ -1107,15 +1551,33 @@
         renderFileList();
         updateSheetDropdownOptions();
         renderSelectedTables();
+        renderExportHistory();
+        updateDashboardStats();
+
         const badge = document.getElementById("count-badge");
         badge.innerText = dbSelected.length;
         badge.style.display = dbSelected.length > 0 ? "inline-block" : "none";
       }
 
+      function updateDashboardStats() {
+        let totalData = dbFiles.reduce((acc, f) => acc + f.rows.length, 0);
+        document.getElementById("stat-total-data").innerText =
+          totalData.toLocaleString("id-ID");
+        document.getElementById("stat-file-db").innerText = dbFiles.length;
+        document.getElementById("stat-total-export").innerText =
+          exportHistory.length;
+
+        if (exportHistory.length > 0) {
+          document.getElementById("stat-last-export").innerText =
+            exportHistory[0].date.split(" ")[0];
+        } else {
+          document.getElementById("stat-last-export").innerText = "-";
+        }
+      }
+
       function updateSheetDropdownOptions() {
         const select = document.getElementById("sheetFilterSelect");
         const currentVal = select.value;
-
         let sheetsSet = new Set();
         dbFiles.forEach((f) => {
           if (f.sheetName) sheetsSet.add(f.sheetName);
@@ -1123,26 +1585,35 @@
 
         let html = '<option value="ALL">📁 Semua Sheet</option>';
         sheetsSet.forEach((s) => {
-          html += `<option value="${s}">📑 Sheet: ${s}</option>`;
+          html += `<option value="${s}">📑 ${s}</option>`;
         });
         select.innerHTML = html;
-
-        if (sheetsSet.has(currentVal)) {
-          select.value = currentVal;
-        } else {
-          select.value = "ALL";
-        }
+        if (sheetsSet.has(currentVal)) select.value = currentVal;
       }
 
-      /* ================= MODAL / LIGHTBOX ================= */
       function openQRModal(encodedText, encodedTitle) {
         const rawText = decodeURIComponent(encodedText);
-        document.getElementById("modalTitle").innerText = decodeURIComponent(encodedTitle);
-        document.getElementById("modalDataText").innerText = rawText;
+        document.getElementById("modalTitle").innerText =
+          decodeURIComponent(encodedTitle);
+
+        const formattedHTML = rawText
+          .split("\n")
+          .map((line) => {
+            let parts = line.split(": ");
+            if (parts.length > 1) {
+              let key = parts.shift();
+              let val = parts.join(": ");
+              return `<span style="color:#94a3b8; font-weight:600;">${key}:</span> <span style="color:var(--accent-cyan); font-weight:800; font-size:15px;">${val}</span>`;
+            }
+            return line;
+          })
+          .join("<br>");
+
+        document.getElementById("modalDataText").innerHTML = formattedHTML;
         new QRious({
           element: document.getElementById("modalCanvas"),
           value: rawText,
-          size: 512,
+          size: 280,
           level: "M",
         });
         document.getElementById("qrModal").classList.add("show");
@@ -1150,241 +1621,221 @@
       function closeModal() {
         document.getElementById("qrModal").classList.remove("show");
       }
-      document.getElementById("qrModal").addEventListener("click", function (e) {
-        if (e.target === this) closeModal();
-      });
+      document
+        .getElementById("qrModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeModal();
+        });
 
       function generateQRSpecificText(rowObj) {
         let textParts = [];
         for (let key in rowObj) {
           if (key.startsWith("_") || key === "SYSTEM_ID") continue;
-          if (rowObj[key] !== undefined && rowObj[key] !== null && rowObj[key] !== "") {
-            textParts.push(`${key}: ${rowObj[key]}`);
-          }
+          if (rowObj[key]) textParts.push(`${key}: ${rowObj[key]}`);
         }
         return textParts.length > 0 ? textParts.join("\n") : "Data Kosong";
       }
 
-      /* ================= MULTI-SHEET EXCEL PARSER ================= */
-      document.getElementById("fileUpload").addEventListener("change", function (e) {
-        const files = e.target.files;
-        if (!files || files.length === 0) return;
+      /* --- FUNGSI PARSING EXCEL --- */
+      document
+        .getElementById("fileUpload")
+        .addEventListener("change", function (e) {
+          const files = e.target.files;
+          if (!files || files.length === 0) return;
 
-        Array.from(files).forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = async function (ev) {
-            try {
-              showToast("Membaca file Excel & Sheet...", "success");
-              const data = new Uint8Array(ev.target.result);
-              const workbook = XLSX.read(data, { type: "array" });
+          Array.from(files).forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = async function (ev) {
+              try {
+                showToast("Memproses file Excel...", "success");
+                const data = new Uint8Array(ev.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                let totalNewRows = 0;
 
-              let totalNewRows = 0;
+                workbook.SheetNames.forEach((sheetName) => {
+                  let rawData = XLSX.utils.sheet_to_json(
+                    workbook.Sheets[sheetName],
+                    { header: 1, raw: false, defval: "" },
+                  );
+                  if (!rawData || rawData.length === 0) return;
 
-              workbook.SheetNames.forEach((sheetName) => {
-                let rawData = XLSX.utils.sheet_to_json(
-                  workbook.Sheets[sheetName],
-                  { header: 1, raw: false, defval: "" }
-                );
-
-                if (!rawData || rawData.length === 0) return;
-
-                let headerRowIndex = 0;
-                let maxFilled = 0;
-                for (let i = 0; i < Math.min(15, rawData.length); i++) {
-                  let filledCount = rawData[i].filter(
-                    (c) => c !== null && c !== undefined && c.toString().trim() !== ""
-                  ).length;
-                  if (filledCount > maxFilled) {
-                    maxFilled = filledCount;
-                    headerRowIndex = i;
+                  let headerRowIndex = 0,
+                    maxFilled = 0;
+                  for (let i = 0; i < Math.min(15, rawData.length); i++) {
+                    let filledCount = rawData[i].filter(
+                      (c) => c && c.toString().trim() !== "",
+                    ).length;
+                    if (filledCount > maxFilled) {
+                      maxFilled = filledCount;
+                      headerRowIndex = i;
+                    }
                   }
-                }
 
-                let headers = rawData[headerRowIndex].map((h, idx) =>
-                  h && h.toString().trim() !== "" ? h.toString().trim() : `Kolom_${idx + 1}`
+                  let rawHeaders = rawData[headerRowIndex];
+                  let validColumns = [];
+                  let headers = [];
+
+                  rawHeaders.forEach((h, idx) => {
+                    if (h && h.toString().trim() !== "") {
+                      validColumns.push(idx);
+                      headers.push(h.toString().trim());
+                    }
+                  });
+
+                  let parsedSheetRows = [];
+                  for (let i = headerRowIndex + 1; i < rawData.length; i++) {
+                    let rowArr = rawData[i];
+                    if (!rowArr || rowArr.length === 0) continue;
+
+                    let isEmptyRow = true;
+                    let rowObj = {};
+                    validColumns.forEach((colIdx, arrIdx) => {
+                      let val =
+                        rowArr[colIdx] !== undefined && rowArr[colIdx] !== null
+                          ? rowArr[colIdx].toString().trim()
+                          : "";
+                      rowObj[headers[arrIdx]] = val;
+                      if (val !== "") isEmptyRow = false;
+                    });
+
+                    if (isEmptyRow) continue;
+
+                    rowObj["SYSTEM_ID"] =
+                      "SYS_" +
+                      Date.now() +
+                      "_" +
+                      Math.random().toString(36).substr(2, 5);
+                    rowObj["_sourceHeaders"] = headers;
+                    rowObj["_sheetName"] = sheetName;
+                    rowObj["_fileName"] = file.name;
+                    rowObj["_QR_SPECIFIC_TEXT"] =
+                      generateQRSpecificText(rowObj);
+                    parsedSheetRows.push(rowObj);
+                  }
+
+                  if (parsedSheetRows.length > 0) {
+                    totalNewRows += parsedSheetRows.length;
+                    dbFiles.push({
+                      id:
+                        "FILE_" +
+                        Date.now() +
+                        "_" +
+                        Math.random().toString(36).substr(2, 4),
+                      fileName: file.name,
+                      sheetName: sheetName,
+                      uploadTime: new Date().toLocaleString("id-ID"),
+                      headers: headers,
+                      rows: parsedSheetRows,
+                    });
+                  }
+                });
+
+                if (totalNewRows === 0)
+                  throw new Error("File kosong atau format salah.");
+                await localforage.setItem("dbFilesMultiSheet", dbFiles);
+                updateUI();
+                showToast(
+                  `Upload sukses: ${file.name} (${totalNewRows} baris)`,
                 );
-
-                let parsedSheetRows = [];
-                for (let i = headerRowIndex + 1; i < rawData.length; i++) {
-                  let rowArr = rawData[i];
-                  if (!rowArr || rowArr.every((c) => !c || c.toString().trim() === "")) continue;
-
-                  let rowObj = {};
-                  headers.forEach((h, idx) => {
-                    rowObj[h] = rowArr[idx] !== undefined ? rowArr[idx].toString().trim() : "";
-                  });
-
-                  rowObj["SYSTEM_ID"] = "SYS_" + Date.now() + "_" + Math.random().toString(36).substr(2, 5);
-                  rowObj["_sourceHeaders"] = headers;
-                  rowObj["_sheetName"] = sheetName;
-                  rowObj["_fileName"] = file.name;
-                  rowObj["_QR_SPECIFIC_TEXT"] = generateQRSpecificText(rowObj);
-                  parsedSheetRows.push(rowObj);
-                }
-
-                if (parsedSheetRows.length > 0) {
-                  totalNewRows += parsedSheetRows.length;
-                  dbFiles.push({
-                    id: "FILE_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
-                    fileName: file.name,
-                    sheetName: sheetName,
-                    uploadTime: new Date().toLocaleString("id-ID"),
-                    headers: headers,
-                    rows: parsedSheetRows,
-                  });
-                }
-              });
-
-              if (totalNewRows === 0) throw new Error("File Excel kosong atau format tidak terbaca.");
-
-              await localforage.setItem("dbFilesMultiSheet", dbFiles);
-              updateUI();
-              showToast(`File "${file.name}" terbaca (${totalNewRows} data dari sheet-sheet yang ada)!`);
-            } catch (err) {
-              showToast(err.message || "Gagal membaca file Excel", "error");
-            }
-          };
-          reader.readAsArrayBuffer(file);
+              } catch (err) {
+                showToast(err.message, "error");
+              }
+            };
+            reader.readAsArrayBuffer(file);
+          });
+          e.target.value = "";
         });
-        e.target.value = "";
-      });
 
-      /* ================= SEARCH ENGINE ================= */
-      document.getElementById("searchInput").addEventListener("input", function (e) {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-          triggerSearchNow();
-        }, 200);
-      });
+      document
+        .getElementById("searchInput")
+        .addEventListener("input", function () {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => triggerSearchNow(), 250);
+        });
 
       function triggerSearchNow() {
-        const query = document.getElementById("searchInput").value.trim().toLowerCase();
+        const query = document
+          .getElementById("searchInput")
+          .value.trim()
+          .toLowerCase();
         executeSearch(query);
       }
 
       function executeSearch(query) {
         const desktopBody = document.getElementById("searchBody");
         const desktopHeader = document.getElementById("searchHeader");
-        const mobileContainer = document.getElementById("search-mobile-container");
-        const selectedSheet = document.getElementById("sheetFilterSelect").value;
+        const selectedSheet =
+          document.getElementById("sheetFilterSelect").value;
 
         if (!query && selectedSheet === "ALL") {
           desktopHeader.innerHTML = "<th>Daftar Pencarian</th>";
-          desktopBody.innerHTML = "";
-          mobileContainer.innerHTML =
-            '<div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">Mulai ketik di kolom pencarian.</div>';
+          desktopBody.innerHTML =
+            '<tr><td style="text-align:center; padding:60px; color:var(--text-muted); font-size:15px;">Ketikkan kata kunci untuk memunculkan data.</td></tr>';
           return;
         }
 
         let matchedRows = [];
         dbFiles.forEach((file) => {
-          if (selectedSheet !== "ALL" && file.sheetName !== selectedSheet) return;
-
+          if (selectedSheet !== "ALL" && file.sheetName !== selectedSheet)
+            return;
           file.rows.forEach((row) => {
-            let rowStr = (Object.values(row).join(" ") + " " + file.sheetName).toLowerCase();
-            if (!query || rowStr.includes(query)) {
-              matchedRows.push(row);
-            }
+            let rowStr = (
+              Object.values(row).join(" ") +
+              " " +
+              file.sheetName
+            ).toLowerCase();
+            if (!query || rowStr.includes(query)) matchedRows.push(row);
           });
         });
 
         if (matchedRows.length === 0) {
           desktopHeader.innerHTML = "<th>Status</th>";
           desktopBody.innerHTML =
-            '<tr><td style="text-align:center; padding:30px; color: var(--text-muted);">Tidak ada data yang cocok dengan pencarian / filter sheet ini.</td></tr>';
-          mobileContainer.innerHTML =
-            '<div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">Tidak ada data yang cocok dengan pencarian / filter sheet ini.</div>';
+            '<tr><td style="text-align:center; padding:60px; color:var(--danger); font-size:15px; font-weight:600;">Data tidak ditemukan.</td></tr>';
           return;
         }
 
-        let headersOrdered = [];
-        if (matchedRows[0]._sourceHeaders && matchedRows[0]._sourceHeaders.length > 0) {
-          headersOrdered = matchedRows[0]._sourceHeaders;
-        } else {
-          let keys = new Set();
-          matchedRows.forEach((r) => {
-            Object.keys(r).forEach((k) => {
-              if (!k.startsWith("_") && k !== "SYSTEM_ID") keys.add(k);
-            });
-          });
-          headersOrdered = Array.from(keys);
-        }
+        let headersOrdered =
+          matchedRows[0]._sourceHeaders ||
+          Object.keys(matchedRows[0]).filter(
+            (k) => !k.startsWith("_") && k !== "SYSTEM_ID",
+          );
 
-        let headHtml = '<th class="sticky-col">Aksi</th><th>Barcode / QR</th><th>SHEET</th>';
+        let headHtml =
+          '<th class="fit-col">Aksi</th><th class="fit-col">Barcode</th><th class="fit-col">Sheet</th>';
         headersOrdered.forEach((h) => (headHtml += `<th>${h}</th>`));
         desktopHeader.innerHTML = headHtml;
 
         let bodyHtml = "";
         matchedRows.forEach((r) => {
           let isSelected = dbSelected.some((s) => s.SYSTEM_ID === r.SYSTEM_ID);
-          let btnText = isSelected ? "✓ Terpilih" : "+ Tambah";
-          let btnClass = isSelected ? "btn-success" : "btn-accent";
+          let btnClass = isSelected ? "btn-danger-outline" : "btn-primary";
+          let btnText = isSelected ? "Batalkan" : "Pilih";
 
           bodyHtml += `<tr>
-            <td class="sticky-col">
-              <button class="btn ${btnClass} btn-sm" onclick="toggleSelectRow('${r.SYSTEM_ID}')">${btnText}</button>
-            </td>
-            <td>
-              <div class="qr-clickable" onclick="openQRModal('${encodeURIComponent(r._QR_SPECIFIC_TEXT)}', '${encodeURIComponent(r[headersOrdered[0]] || "Detail Barcode")}')">
-                <canvas id="qr_search_${r.SYSTEM_ID}"></canvas>
-              </div>
-            </td>
-            <td><span class="sheet-tag">📑 ${r._sheetName || "Sheet1"}</span></td>`;
-          headersOrdered.forEach((h) => {
-            let val = r[h] !== undefined && r[h] !== null && r[h] !== "" ? r[h] : "-";
-            bodyHtml += `<td>${val}</td>`;
-          });
+                    <td class="fit-col"><button class="btn ${btnClass} btn-sm" onclick="toggleSelectRow('${r.SYSTEM_ID}')">${btnText}</button></td>
+                    <td class="fit-col"><div class="qr-wrapper" onclick="openQRModal('${encodeURIComponent(r._QR_SPECIFIC_TEXT)}', '${encodeURIComponent(r[headersOrdered[0]] || "Item")}')">
+                        <canvas id="qr_search_${r.SYSTEM_ID}"></canvas></div></td>
+                    <td class="fit-col"><span class="sheet-badge">${r._sheetName}</span></td>`;
+          headersOrdered.forEach(
+            (h) => (bodyHtml += `<td>${r[h] || "-"}</td>`),
+          );
           bodyHtml += "</tr>";
         });
         desktopBody.innerHTML = bodyHtml;
 
         matchedRows.forEach((r) => {
-          let elem = document.getElementById(`qr_search_${r.SYSTEM_ID}`);
-          if (elem) {
-            new QRious({ element: elem, value: r._QR_SPECIFIC_TEXT, size: 128, level: "M" });
-          }
-        });
-
-        let mobileHtml = "";
-        matchedRows.forEach((r) => {
-          let isSelected = dbSelected.some((s) => s.SYSTEM_ID === r.SYSTEM_ID);
-          let btnText = isSelected ? "✓ Terpilih" : "+ Tambahkan Ke Export";
-          let btnClass = isSelected ? "btn-success" : "btn-accent";
-          let mainTitle = r[headersOrdered[0]] || "Item";
-
-          mobileHtml += `<div class="data-card">
-            <div style="text-align:center; margin-bottom:8px;"><span class="sheet-tag">📑 Sheet: ${r._sheetName || "Sheet1"}</span></div>
-            <div class="card-item-title">${mainTitle}</div>
-            <div style="display:flex; justify-content:center; margin-bottom:16px;">
-              <div class="qr-clickable" onclick="openQRModal('${encodeURIComponent(r._QR_SPECIFIC_TEXT)}', '${encodeURIComponent(mainTitle)}')">
-                <canvas id="qr_mob_search_${r.SYSTEM_ID}"></canvas>
-              </div>
-            </div>
-            <div class="data-grid">`;
-
-          headersOrdered.slice(1).forEach((h) => {
-            let val = r[h] !== undefined && r[h] !== null && r[h] !== "" ? r[h] : "-";
-            mobileHtml += `<div class="data-row">
-              <span class="data-label">${h}</span>
-              <span class="data-val">${val}</span>
-            </div>`;
-          });
-
-          mobileHtml += `</div>
-            <button class="btn ${btnClass}" style="width:100%; justify-content:center;" onclick="toggleSelectRow('${r.SYSTEM_ID}')">${btnText}</button>
-          </div>`;
-        });
-        mobileContainer.innerHTML = mobileHtml;
-
-        matchedRows.forEach((r) => {
-          let elem = document.getElementById(`qr_mob_search_${r.SYSTEM_ID}`);
-          if (elem) {
-            new QRious({ element: elem, value: r._QR_SPECIFIC_TEXT, size: 128, level: "M" });
-          }
+          let el = document.getElementById(`qr_search_${r.SYSTEM_ID}`);
+          if (el)
+            new QRious({
+              element: el,
+              value: r._QR_SPECIFIC_TEXT,
+              size: 100,
+              level: "M",
+            });
         });
       }
 
-      /* ================= SELECTION MANAGEMENT ================= */
       async function toggleSelectRow(systemId) {
         let foundRow = null;
         for (let file of dbFiles) {
@@ -1396,241 +1847,212 @@
         }
         if (!foundRow) return;
 
-        let existingIndex = dbSelected.findIndex((s) => s.SYSTEM_ID === systemId);
+        let existingIndex = dbSelected.findIndex(
+          (s) => s.SYSTEM_ID === systemId,
+        );
         if (existingIndex >= 0) {
           dbSelected.splice(existingIndex, 1);
-          showToast("Item dihapus dari daftar export.");
         } else {
           dbSelected.push(foundRow);
-          showToast("Item berhasil ditambahkan ke daftar export!");
         }
-
         await localforage.setItem("dbSelectedMultiSheet", dbSelected);
         updateUI();
-
         triggerSearchNow();
       }
 
       async function clearSelected() {
         if (dbSelected.length === 0) return;
-        if (!confirm("Hapus semua item terpilih dari daftar export?")) return;
+        if (!confirm("Hapus seluruh data di daftar Export?")) return;
         dbSelected = [];
         await localforage.setItem("dbSelectedMultiSheet", dbSelected);
         updateUI();
-
         triggerSearchNow();
-        showToast("Daftar export telah dikosongkan.");
+        showToast("Daftar export telah dibersihkan.");
       }
 
       function renderSelectedTables() {
-        const desktopBody = document.getElementById("selectedBody");
-        const desktopHeader = document.getElementById("selectedHeader");
-        const mobileContainer = document.getElementById("selected-mobile-container");
+        const body = document.getElementById("selectedBody");
+        const header = document.getElementById("selectedHeader");
 
         if (dbSelected.length === 0) {
-          desktopHeader.innerHTML = "<th>Belum ada data...</th>";
-          desktopBody.innerHTML = "";
-          mobileContainer.innerHTML =
-            '<div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">Daftar kosong.</div>';
+          header.innerHTML = "<th>Data Kosong</th>";
+          body.innerHTML =
+            '<tr><td style="text-align:center; padding:60px; color:var(--text-muted); font-size:15px;">Belum ada data yang dipilih untuk di-export.</td></tr>';
           return;
         }
 
-        let headersOrdered = [];
-        if (dbSelected[0]._sourceHeaders && dbSelected[0]._sourceHeaders.length > 0) {
-          headersOrdered = dbSelected[0]._sourceHeaders;
-        } else {
-          let keys = new Set();
-          dbSelected.forEach((r) => {
-            Object.keys(r).forEach((k) => {
-              if (!k.startsWith("_") && k !== "SYSTEM_ID") keys.add(k);
-            });
-          });
-          headersOrdered = Array.from(keys);
-        }
+        let headersOrdered =
+          dbSelected[0]._sourceHeaders ||
+          Object.keys(dbSelected[0]).filter(
+            (k) => !k.startsWith("_") && k !== "SYSTEM_ID",
+          );
 
-        let headHtml = '<th class="sticky-col">Aksi</th><th>Barcode / QR</th><th>SHEET</th>';
+        let headHtml =
+          '<th class="fit-col">Aksi</th><th class="fit-col">Barcode</th><th class="fit-col">Sheet</th>';
         headersOrdered.forEach((h) => (headHtml += `<th>${h}</th>`));
-        desktopHeader.innerHTML = headHtml;
+        header.innerHTML = headHtml;
 
         let bodyHtml = "";
         dbSelected.forEach((r) => {
           bodyHtml += `<tr>
-            <td class="sticky-col">
-              <button class="btn btn-danger-outline btn-sm" onclick="toggleSelectRow('${r.SYSTEM_ID}')">Hapus</button>
-            </td>
-            <td>
-              <div class="qr-clickable" onclick="openQRModal('${encodeURIComponent(r._QR_SPECIFIC_TEXT)}', '${encodeURIComponent(r[headersOrdered[0]] || "Detail Barcode")}')">
-                <canvas id="qr_sel_${r.SYSTEM_ID}"></canvas>
-              </div>
-            </td>
-            <td><span class="sheet-tag">📑 ${r._sheetName || "Sheet1"}</span></td>`;
-          headersOrdered.forEach((h) => {
-            let val = r[h] !== undefined && r[h] !== null && r[h] !== "" ? r[h] : "-";
-            bodyHtml += `<td>${val}</td>`;
-          });
+                    <td class="fit-col"><button class="btn btn-danger-outline btn-sm" onclick="toggleSelectRow('${r.SYSTEM_ID}')">Hapus</button></td>
+                    <td class="fit-col"><div class="qr-wrapper" onclick="openQRModal('${encodeURIComponent(r._QR_SPECIFIC_TEXT)}', 'Preview Barcode')">
+                        <canvas id="qr_sel_${r.SYSTEM_ID}"></canvas></div></td>
+                    <td class="fit-col"><span class="sheet-badge">${r._sheetName}</span></td>`;
+          headersOrdered.forEach(
+            (h) => (bodyHtml += `<td>${r[h] || "-"}</td>`),
+          );
           bodyHtml += "</tr>";
         });
-        desktopBody.innerHTML = bodyHtml;
+        body.innerHTML = bodyHtml;
 
         dbSelected.forEach((r) => {
-          let elem = document.getElementById(`qr_sel_${r.SYSTEM_ID}`);
-          if (elem) {
-            new QRious({ element: elem, value: r._QR_SPECIFIC_TEXT, size: 128, level: "M" });
-          }
-        });
-
-        let mobileHtml = "";
-        dbSelected.forEach((r) => {
-          let mainTitle = r[headersOrdered[0]] || "Item";
-          mobileHtml += `<div class="data-card">
-            <div style="text-align:center; margin-bottom:8px;"><span class="sheet-tag">📑 Sheet: ${r._sheetName || "Sheet1"}</span></div>
-            <div class="card-item-title">${mainTitle}</div>
-            <div style="display:flex; justify-content:center; margin-bottom:16px;">
-              <div class="qr-clickable" onclick="openQRModal('${encodeURIComponent(r._QR_SPECIFIC_TEXT)}', '${encodeURIComponent(mainTitle)}')">
-                <canvas id="qr_mob_sel_${r.SYSTEM_ID}"></canvas>
-              </div>
-            </div>
-            <div class="data-grid">`;
-
-          headersOrdered.slice(1).forEach((h) => {
-            let val = r[h] !== undefined && r[h] !== null && r[h] !== "" ? r[h] : "-";
-            mobileHtml += `<div class="data-row">
-              <span class="data-label">${h}</span>
-              <span class="data-val">${val}</span>
-            </div>`;
-          });
-
-          mobileHtml += `</div>
-            <button class="btn btn-danger-outline" style="width:100%; justify-content:center;" onclick="toggleSelectRow('${r.SYSTEM_ID}')">Hapus dari Export</button>
-          </div>`;
-        });
-        mobileContainer.innerHTML = mobileHtml;
-
-        dbSelected.forEach((r) => {
-          let elem = document.getElementById(`qr_mob_sel_${r.SYSTEM_ID}`);
-          if (elem) {
-            new QRious({ element: elem, value: r._QR_SPECIFIC_TEXT, size: 128, level: "M" });
-          }
+          let el = document.getElementById(`qr_sel_${r.SYSTEM_ID}`);
+          if (el)
+            new QRious({
+              element: el,
+              value: r._QR_SPECIFIC_TEXT,
+              size: 100,
+              level: "M",
+            });
         });
       }
 
-      /* ================= DATABASE FILE MANAGEMENT ================= */
       function renderFileList() {
         const container = document.getElementById("fileListContainer");
-        const subtitle = document.getElementById("dbInfoSubtitle");
-
-        let totalRows = dbFiles.reduce((acc, f) => acc + f.rows.length, 0);
-        subtitle.innerText = `${dbFiles.length} Sheet terunggah, Total ${totalRows} Data.`;
-
         if (dbFiles.length === 0) {
           container.innerHTML =
-            '<div style="text-align:center; padding: 40px; color: var(--text-muted);">Belum ada file Excel diupload.</div>';
+            '<div style="color:var(--text-muted); font-size:15px; text-align:center; padding: 40px;">Database saat ini kosong.</div>';
           return;
         }
-
         let html = "";
         dbFiles.forEach((f) => {
-          html += `<div style="background:var(--surface); border:1px solid var(--border); border-radius: var(--radius-md); padding:16px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <div style="font-weight:700; color:var(--text-dark); font-size:15px;">📊 ${f.fileName} <span class="sheet-tag">Sheet: ${f.sheetName}</span></div>
-              <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
-                ${f.rows.length} Baris Data • Diunggah: ${f.uploadTime}
-              </div>
-            </div>
-            <button class="btn btn-danger-outline btn-sm" onclick="removeFile('${f.id}')">Hapus Sheet</button>
-          </div>`;
+          html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:22px 26px; background:rgba(0,0,0,0.5); border-radius:16px; border:1px solid rgba(255,255,255,0.1); transition: all 0.3s; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);">
+                    <div>
+                        <div style="font-weight:800; font-size:16px; letter-spacing:0.5px;">📊 ${f.fileName}</div>
+                        <div style="font-size:13px; color:var(--accent-cyan); margin-top:8px; font-weight: 700;">Sheet: ${f.sheetName} &nbsp;•&nbsp; ${f.rows.length} Baris</div>
+                    </div>
+                    <button class="btn btn-danger-outline btn-sm" onclick="removeFile('${f.id}')">Hapus</button>
+                </div>`;
+        });
+        container.innerHTML = html;
+      }
+
+      function renderExportHistory() {
+        const container = document.getElementById("exportHistoryContainer");
+        if (exportHistory.length === 0) {
+          container.innerHTML =
+            '<div style="color:var(--text-muted); font-size:15px; text-align:center; padding: 40px;">Tidak ada riwayat export.</div>';
+          return;
+        }
+        let html = "";
+        exportHistory.forEach((exp) => {
+          html += `<div style="padding:22px 26px; background:rgba(0,0,0,0.5); border-radius:16px; border:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap:15px; transition: all 0.3s; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);">
+                    <div>
+                        <div style="font-size:13px; color:var(--text-muted); font-weight:700;">${exp.date}</div>
+                        <div style="font-size:16px; font-weight:800; color:var(--accent-green); margin-top:8px;">${exp.count} Barcode Diexport</div>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-primary btn-sm" onclick="loadHistoryData('${exp.id}')">Lihat Data</button>
+                        <button class="btn btn-danger-outline btn-sm" onclick="deleteHistory('${exp.id}')">✕</button>
+                    </div>
+                </div>`;
         });
         container.innerHTML = html;
       }
 
       async function removeFile(fileId) {
+        if (!confirm("Hapus file dan data ini dari database?")) return;
         let fileObj = dbFiles.find((f) => f.id === fileId);
-        if (!fileObj) return;
-        if (!confirm(`Hapus sheet "${fileObj.sheetName}" dari file "${fileObj.fileName}"?`)) return;
-
-        let removedSystemIds = new Set(fileObj.rows.map((r) => r.SYSTEM_ID));
+        let removedIds = new Set(fileObj.rows.map((r) => r.SYSTEM_ID));
         dbFiles = dbFiles.filter((f) => f.id !== fileId);
-        dbSelected = dbSelected.filter((s) => !removedSystemIds.has(s.SYSTEM_ID));
-
+        dbSelected = dbSelected.filter((s) => !removedIds.has(s.SYSTEM_ID));
         await localforage.setItem("dbFilesMultiSheet", dbFiles);
         await localforage.setItem("dbSelectedMultiSheet", dbSelected);
         updateUI();
-
         triggerSearchNow();
-        showToast("Sheet berhasil dihapus.");
+        showToast("File berhasil dihapus.");
       }
 
       async function clearDatabase() {
-        if (dbFiles.length === 0) return;
-        if (!confirm("Hapus seluruh database file dan data terpilih?")) return;
-
+        if (!confirm("Peringatan: Seluruh data akan terhapus. Lanjutkan?"))
+          return;
         dbFiles = [];
         dbSelected = [];
         await localforage.setItem("dbFilesMultiSheet", dbFiles);
         await localforage.setItem("dbSelectedMultiSheet", dbSelected);
         updateUI();
-
         triggerSearchNow();
-        showToast("Seluruh database berhasil dikosongkan.");
+        showToast("Database telah dikosongkan.");
       }
 
-      /* ================= EXPORT EXCEL WITH BARCODE / QR ================= */
+      async function loadHistoryData(historyId) {
+        const target = exportHistory.find((e) => e.id === historyId);
+        if (target) {
+          dbSelected = JSON.parse(JSON.stringify(target.items));
+          await localforage.setItem("dbSelectedMultiSheet", dbSelected);
+          updateUI();
+          switchPage("terpilih", document.querySelectorAll(".nav-item")[2]);
+          showToast("Data riwayat berhasil dimuat ulang.");
+        }
+      }
+      async function deleteHistory(historyId) {
+        exportHistory = exportHistory.filter((e) => e.id !== historyId);
+        await localforage.setItem("appExportHistory", exportHistory);
+        renderExportHistory();
+        updateDashboardStats();
+      }
+
       async function downloadExcel() {
         if (dbSelected.length === 0) {
-          showToast("Pilih setidaknya 1 data untuk di-export!", "error");
+          showToast(
+            "Pilih data yang ingin di-export terlebih dahulu!",
+            "error",
+          );
           return;
         }
-
         try {
-          showToast("Menyiapkan berkas Excel & Barcode...", "success");
-
+          showToast("Memproses pembuatan Excel...");
           const workbook = new ExcelJS.Workbook();
-          const worksheet = workbook.addWorksheet("Data Kedatangan");
+          const worksheet = workbook.addWorksheet("Data Export");
 
-          let headersOrdered = [];
-          if (dbSelected[0]._sourceHeaders && dbSelected[0]._sourceHeaders.length > 0) {
-            headersOrdered = dbSelected[0]._sourceHeaders;
-          } else {
-            let keys = new Set();
-            dbSelected.forEach((r) => {
-              Object.keys(r).forEach((k) => {
-                if (!k.startsWith("_") && k !== "SYSTEM_ID") keys.add(k);
-              });
-            });
-            headersOrdered = Array.from(keys);
-          }
+          let headersOrdered =
+            dbSelected[0]._sourceHeaders ||
+            Object.keys(dbSelected[0]).filter(
+              (k) => !k.startsWith("_") && k !== "SYSTEM_ID",
+            );
 
           worksheet.columns = [
-            { header: "Barcode / QR", key: "qr_code", width: 18 },
-            { header: "NAMA SHEET", key: "_sheetName", width: 18 },
-            ...headersOrdered.map((h) => ({ header: h, key: h, width: 22 })),
+            { header: "Barcode / QR", key: "qr_code", width: 24 },
+            { header: "Sumber Sheet", key: "_sheetName", width: 24 },
+            ...headersOrdered.map((h) => ({ header: h, key: h, width: 30 })),
           ];
 
           const headerRow = worksheet.getRow(1);
-          headerRow.height = 28;
-          headerRow.font = { bold: true, color: { argb: "FFFFFF" }, size: 11 };
-          headerRow.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "0F172A" } };
+          headerRow.height = 40;
+          headerRow.font = { bold: true, color: { argb: "FFFFFF" }, size: 13 };
+          headerRow.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "00F2FE" },
+          };
           headerRow.alignment = { vertical: "middle", horizontal: "center" };
 
           const canvas = document.getElementById("hiddenCanvas");
 
           for (let i = 0; i < dbSelected.length; i++) {
             const rowData = dbSelected[i];
-            const rowIndex = i + 2;
+            let rowObj = { _sheetName: rowData._sheetName || "-" };
+            headersOrdered.forEach((h) => (rowObj[h] = rowData[h] || "-"));
 
-            let rowValueObj = {
-              qr_code: "",
-              _sheetName: rowData._sheetName || "-",
-            };
-            headersOrdered.forEach((h) => {
-              rowValueObj[h] = rowData[h] !== undefined && rowData[h] !== null && rowData[h] !== "" ? rowData[h] : "-";
-            });
-
-            const addedRow = worksheet.addRow(rowValueObj);
-            addedRow.height = 80;
-
+            const addedRow = worksheet.addRow(rowObj);
+            addedRow.height = 120;
             addedRow.eachCell({ includeEmpty: true }, (cell) => {
-              cell.alignment = { vertical: "middle", horizontal: "left", wrapText: true };
+              cell.alignment = {
+                vertical: "middle",
+                wrapText: true,
+                horizontal: "left",
+              };
               cell.border = {
                 top: { style: "thin", color: { argb: "E2E8F0" } },
                 bottom: { style: "thin", color: { argb: "E2E8F0" } },
@@ -1645,7 +2067,6 @@
               size: 256,
               level: "M",
             });
-
             const base64Image = canvas.toDataURL("image/png");
             const imageId = workbook.addImage({
               base64: base64Image,
@@ -1653,23 +2074,29 @@
             });
 
             worksheet.addImage(imageId, {
-              tl: { col: 0.15, row: rowIndex - 1 + 0.1 },
-              ext: { width: 90, height: 90 },
+              tl: { col: 0.15, row: i + 1 + 0.1 },
+              ext: { width: 130, height: 130 },
               editAs: "oneCell",
             });
           }
 
           const buffer = await workbook.xlsx.writeBuffer();
           saveAs(
-            new Blob([buffer], {
-              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            }),
-            `Export_Barcode_System_${Date.now()}.xlsx`
+            new Blob([buffer]),
+            `Export_Barcode_PT_DayaSaktiNiaga_${Date.now()}.xlsx`,
           );
 
-          showToast("Excel & Barcode berhasil diunduh!", "success");
+          exportHistory.unshift({
+            id: "EXP_" + Date.now(),
+            date: new Date().toLocaleString("id-ID"),
+            count: dbSelected.length,
+            items: JSON.parse(JSON.stringify(dbSelected)),
+          });
+          await localforage.setItem("appExportHistory", exportHistory);
+          updateUI();
+          showToast("File Excel & Barcode berhasil diunduh!");
         } catch (err) {
-          showToast("Gagal mengeksport Excel: " + err.message, "error");
+          showToast("Gagal melakukan export: " + err.message, "error");
         }
       }
     </script>
